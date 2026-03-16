@@ -70,7 +70,7 @@
                     <div>
                         <label for="email" class="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2 ml-1">Email</label>
                         <input id="email" type="email" name="email" value="{{ old('email') }}" required autofocus 
-                            placeholder="user@cocohub.ph"
+                            placeholder="Email"
                             class="w-full px-5 py-3.5 bg-[#F3F4F6] border-none rounded-2xl focus:ring-2 focus:ring-[#738D56] text-gray-700 placeholder-gray-400 transition-all" />
                         @error('email')
                             <p class="text-red-500 text-[10px] mt-1 ml-1">{{ $message }}</p>
