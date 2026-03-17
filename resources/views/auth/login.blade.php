@@ -26,8 +26,9 @@
                 </span>
             </div>
 
-            <h1 class="text-5xl lg:text-6xl xl:text-7xl font-bold text-gray-900 leading-[1.1]">
-                Natural coconut <br> coir products for a <br> greener everyday <br> life.
+            <h1 class="text-5xl lg:text-6xl xl:text-7xl font-bold text-gray-900 leading-tight">
+                Natural coconut <br> coir products for a <br> greener everyday <br> 
+                <span class="inline-block mt-4">life.</span>
             </h1>
 
             <p class="text-gray-600 text-lg text-justify max-w-md leading-relaxed">
