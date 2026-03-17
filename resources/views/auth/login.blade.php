@@ -38,19 +38,19 @@
             <div class="flex gap-4 pt-2">
                 <div class="bg-white p-5 rounded-2xl shadow-sm border border-gray-100 flex-1 max-w-[130px]">
                     <span class="block text-2xl font-bold text-gray-800">100%</span>
-                    <span class="text-[9px] text-gray-400 font-bold uppercase tracking-wider">Natural Fiber</span>
+                    <span class="text-[10px] text-[#8E8E8E] font-bold uppercase tracking-wider">Natural Fiber</span>
                 </div>
                 <div class="bg-white p-5 rounded-2xl shadow-sm border border-gray-100 flex-1 max-w-[130px]">
                     <span class="block text-2xl font-bold text-gray-800">50k</span>
-                    <span class="text-[9px] text-gray-400 font-bold uppercase tracking-wider">Likes</span>
+                    <span class="text-[10px] text-[#8E8E8E] font-bold uppercase tracking-wider">Likes</span>
                 </div>
                 <div class="bg-white p-5 rounded-2xl shadow-sm border border-gray-100 flex-1 max-w-[130px]">
                     <span class="block text-2xl font-bold text-gray-800">Eco</span>
-                    <span class="text-[9px] text-gray-400 font-bold uppercase tracking-wider">Packaging</span>
+                    <span class="text-[10px] text-[#8E8E8E] font-bold uppercase tracking-wider">Packaging</span>
                 </div>
             </div>
 
-            <div class="text-[11px] tracking-[0.3em] text-gray-300 font-black uppercase pt-6">
+            <div class="text-[11px] tracking-[0.3em] text-[#8E8E8E] font-black uppercase pt-6">
                 COCOHUB | LUMIERE
             </div>
         </div>
