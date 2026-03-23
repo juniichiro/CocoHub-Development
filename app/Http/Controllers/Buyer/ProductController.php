@@ -47,7 +47,6 @@ class ProductController extends Controller
 
     public function show(Product $product)
     {
-        // Cache individual product details for 24 hours
         $product = Cache::remember("product_detail_{$product->id}", 86400, function () use ($product) {
             return $product;
         });

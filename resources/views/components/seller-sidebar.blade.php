@@ -14,7 +14,7 @@
     <div class="px-6 mb-8">
         <div class="bg-[#F9F7F2] p-4 rounded-2xl flex items-center gap-3 border border-gray-50">
             <img src="{{ Auth::user()->sellerDetail->profile_picture 
-                        ? asset('images/' . Auth::user()->sellerDetail->profile_picture) 
+                        ? asset('images/profile/' . Auth::user()->sellerDetail->profile_picture) 
                         : 'https://ui-avatars.com/api/?name=' . urlencode(Auth::user()->sellerDetail->first_name) . '&background=738D56&color=fff' }}" 
                  class="w-10 h-10 rounded-xl object-cover shadow-sm border border-white" 
                  alt="Seller Profile">

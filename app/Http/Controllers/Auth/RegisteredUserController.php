@@ -14,13 +14,20 @@ use Illuminate\View\View;
 
 class RegisteredUserController extends Controller
 {
+    /**
+     * Display the registration view.
+     */
     public function create(): View
     {
         return view('auth.register');
     }
 
+    /**
+     * Handle an incoming registration request.
+     */
    public function store(Request $request): RedirectResponse
     {
+        // Remove 'name' from validation since it doesn't exist in the users table
         $request->validate([
             'first_name' => ['required', 'string', 'max:255'],
             'middle_name' => ['nullable', 'string', 'max:255'],
@@ -32,12 +39,14 @@ class RegisteredUserController extends Controller
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
 
+        // 1. Create the User without the 'name' field
         $user = User::create([
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'role_id' => 2, 
         ]);
 
+        // 2. Create Buyer Details (This is where the names actually live)
         $user->buyerDetail()->create([
             'first_name' => $request->first_name,
             'middle_name' => $request->middle_name,

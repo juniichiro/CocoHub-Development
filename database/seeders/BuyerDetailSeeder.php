@@ -22,7 +22,7 @@ class BuyerDetailSeeder extends Seeder
                     'age'          => 21,
                     'address'      => 'Dona Aurora Quezon City',
                     'phone_number' => '0912345678',
-                    'profile_picture' => null,
+                    'profile_picture' => 'raniel.png',
                 ]
             );
         }

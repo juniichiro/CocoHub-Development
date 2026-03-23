@@ -4,7 +4,12 @@
 
 @section('content')
 <div class="h-screen w-full bg-[#F9F7F2] flex flex-col overflow-hidden" 
-     x-data="{ password: '', password_confirmation: '' }">
+     x-data="{ 
+        password: '', 
+        password_confirmation: '', 
+        showPassword: false, 
+        showConfirmPassword: false 
+     }">
     
     <header class="w-full py-4 px-8 lg:px-20 bg-white border-b border-gray-100 flex items-center shrink-0">
         <div class="flex items-center gap-3">
@@ -64,22 +69,20 @@
                         <div>
                             <label class="block text-[11px] font-bold text-gray-400 uppercase tracking-wider mb-1 ml-1">First Name</label>
                             <input type="text" name="first_name" id="first_name" value="{{ old('first_name') }}" required placeholder="First Name"
-                                onkeyup="updateFullName()"
-                                class="w-full px-4 py-3 bg-[#F3F4F6] border-none rounded-xl focus:ring-2 focus:ring-[#738D56] text-gray-700 placeholder-gray-400 transition-all text-sm @error('first_name') ring-2 ring-red-500 @enderror" />
-                            @error('first_name') <p class="text-red-500 text-[10px] mt-1">{{ $message }}</p> @enderror
+                                onblur="formatInput(this); updateFullName()"
+                                class="w-full px-4 py-3 bg-[#F3F4F6] border-none rounded-xl focus:ring-2 focus:ring-[#738D56] text-gray-700 placeholder-gray-400 transition-all text-sm capitalize" />
                         </div>
                         <div>
                             <label class="block text-[11px] font-bold text-gray-400 uppercase tracking-wider mb-1 ml-1">Middle Name</label>
                             <input type="text" name="middle_name" id="middle_name" value="{{ old('middle_name') }}" placeholder="Middle Name"
-                                onkeyup="updateFullName()"
-                                class="w-full px-4 py-3 bg-[#F3F4F6] border-none rounded-xl focus:ring-2 focus:ring-[#738D56] text-gray-700 placeholder-gray-400 transition-all text-sm" />
+                                onblur="formatInput(this); updateFullName()"
+                                class="w-full px-4 py-3 bg-[#F3F4F6] border-none rounded-xl focus:ring-2 focus:ring-[#738D56] text-gray-700 placeholder-gray-400 transition-all text-sm capitalize" />
                         </div>
                         <div>
                             <label class="block text-[11px] font-bold text-gray-400 uppercase tracking-wider mb-1 ml-1">Last Name</label>
                             <input type="text" name="last_name" id="last_name" value="{{ old('last_name') }}" required placeholder="Last Name"
-                                onkeyup="updateFullName()"
-                                class="w-full px-4 py-3 bg-[#F3F4F6] border-none rounded-xl focus:ring-2 focus:ring-[#738D56] text-gray-700 placeholder-gray-400 transition-all text-sm @error('last_name') ring-2 ring-red-500 @enderror" />
-                            @error('last_name') <p class="text-red-500 text-[10px] mt-1">{{ $message }}</p> @enderror
+                                onblur="formatInput(this); updateFullName()"
+                                class="w-full px-4 py-3 bg-[#F3F4F6] border-none rounded-xl focus:ring-2 focus:ring-[#738D56] text-gray-700 placeholder-gray-400 transition-all text-sm capitalize" />
                         </div>
                     </div>
 
@@ -87,42 +90,62 @@
                         <div class="col-span-2">
                             <label class="block text-[11px] font-bold text-gray-400 uppercase tracking-wider mb-1 ml-1">Mobile Number</label>
                             <input type="text" name="phone_number" value="{{ old('phone_number') }}" required placeholder="Mobile Number"
-                                class="w-full px-5 py-3 bg-[#F3F4F6] border-none rounded-xl focus:ring-2 focus:ring-[#738D56] text-gray-700 placeholder-gray-400 transition-all text-sm @error('phone_number') ring-2 ring-red-500 @enderror" />
-                            @error('phone_number') <p class="text-red-500 text-[10px] mt-1">{{ $message }}</p> @enderror
+                                class="w-full px-5 py-3 bg-[#F3F4F6] border-none rounded-xl focus:ring-2 focus:ring-[#738D56] text-gray-700 placeholder-gray-400 transition-all text-sm" />
                         </div>
                         <div>
                             <label class="block text-[11px] font-bold text-gray-400 uppercase tracking-wider mb-1 ml-1">Age</label>
                             <input type="number" name="age" value="{{ old('age') }}" required placeholder="Age"
-                                class="w-full px-5 py-3 bg-[#F3F4F6] border-none rounded-xl focus:ring-2 focus:ring-[#738D56] text-gray-700 placeholder-gray-400 transition-all text-sm @error('age') ring-2 ring-red-500 @enderror" />
-                            @error('age') <p class="text-red-500 text-[10px] mt-1">{{ $message }}</p> @enderror
+                                class="w-full px-5 py-3 bg-[#F3F4F6] border-none rounded-xl focus:ring-2 focus:ring-[#738D56] text-gray-700 placeholder-gray-400 transition-all text-sm" />
                         </div>
                     </div>
 
                     <div>
                         <label class="block text-[11px] font-bold text-gray-400 uppercase tracking-wider mb-1 ml-1">Address</label>
                         <input type="text" name="address" value="{{ old('address') }}" required placeholder="Address"
-                            class="w-full px-5 py-3 bg-[#F3F4F6] border-none rounded-xl focus:ring-2 focus:ring-[#738D56] text-gray-700 placeholder-gray-400 transition-all text-sm @error('address') ring-2 ring-red-500 @enderror" />
-                        @error('address') <p class="text-red-500 text-[10px] mt-1">{{ $message }}</p> @enderror
+                            onblur="formatInput(this)"
+                            class="w-full px-5 py-3 bg-[#F3F4F6] border-none rounded-xl focus:ring-2 focus:ring-[#738D56] text-gray-700 placeholder-gray-400 transition-all text-sm capitalize" />
                     </div>
 
                     <div>
                         <label class="block text-[11px] font-bold text-gray-400 uppercase tracking-wider mb-1 ml-1">Email</label>
                         <input type="email" name="email" value="{{ old('email') }}" required placeholder="Email"
-                            class="w-full px-5 py-3 bg-[#F3F4F6] border-none rounded-xl focus:ring-2 focus:ring-[#738D56] text-gray-700 placeholder-gray-400 transition-all text-sm @error('email') ring-2 ring-red-500 @enderror" />
-                        @error('email') <p class="text-red-500 text-[10px] mt-1">{{ $message }}</p> @enderror
+                            class="w-full px-5 py-3 bg-[#F3F4F6] border-none rounded-xl focus:ring-2 focus:ring-[#738D56] text-gray-700 placeholder-gray-400 transition-all text-sm" />
                     </div>
 
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div>
+                        <div class="relative">
                             <label class="block text-[11px] font-bold text-gray-400 uppercase tracking-wider mb-1 ml-1">Password</label>
-                            <input type="password" name="password" x-model="password" required placeholder="Password"
-                                class="w-full px-5 py-3 bg-[#F3F4F6] border-none rounded-xl focus:ring-2 focus:ring-[#738D56] text-gray-700 placeholder-gray-400 transition-all text-sm @error('password') ring-2 ring-red-500 @enderror" />
-                            @error('password') <p class="text-red-500 text-[10px] mt-1">{{ $message }}</p> @enderror
+                            <input :type="showPassword ? 'text' : 'password'" name="password" x-model="password" required placeholder="Password"
+                                class="w-full px-5 py-3 bg-[#F3F4F6] border-none rounded-xl focus:ring-2 focus:ring-[#738D56] text-gray-700 placeholder-gray-400 transition-all text-sm pr-12" />
+                            <button type="button" @click="showPassword = !showPassword" class="absolute right-4 top-[34px] text-gray-400 hover:text-[#738D56] transition-colors">
+                                <template x-if="!showPassword">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                                    </svg>
+                                </template>
+                                <template x-if="showPassword">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.542-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l18 18" />
+                                    </svg>
+                                </template>
+                            </button>
                         </div>
-                        <div>
+                        <div class="relative">
                             <label class="block text-[11px] font-bold text-gray-400 uppercase tracking-wider mb-1 ml-1">Confirm Password</label>
-                            <input type="password" name="password_confirmation" x-model="password_confirmation" required placeholder="Confirm Password"
-                                class="w-full px-5 py-3 bg-[#F3F4F6] border-none rounded-xl focus:ring-2 focus:ring-[#738D56] text-gray-700 placeholder-gray-400 transition-all text-sm" />
+                            <input :type="showConfirmPassword ? 'text' : 'password'" name="password_confirmation" x-model="password_confirmation" required placeholder="Confirm Password"
+                                class="w-full px-5 py-3 bg-[#F3F4F6] border-none rounded-xl focus:ring-2 focus:ring-[#738D56] text-gray-700 placeholder-gray-400 transition-all text-sm pr-12" />
+                            <button type="button" @click="showConfirmPassword = !showConfirmPassword" class="absolute right-4 top-[34px] text-gray-400 hover:text-[#738D56] transition-colors">
+                                <template x-if="!showConfirmPassword">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                                    </svg>
+                                </template>
+                                <template x-if="showConfirmPassword">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.542-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l18 18" />
+                                    </svg>
+                                </template>
+                            </button>
                             
                             <div class="mt-1 ml-1 h-3">
                                 <p x-show="password_confirmation.length > 0 && password === password_confirmation" 
@@ -152,10 +175,19 @@
 </div>
 
 <script>
+    function toTitleCase(str) {
+        if (!str) return "";
+        return str.toLowerCase().replace(/\b\w/g, s => s.toUpperCase());
+    }
+
+    function formatInput(element) {
+        element.value = toTitleCase(element.value);
+    }
+
     function updateFullName() {
-        const first = document.getElementById('first_name').value.trim();
-        const middle = document.getElementById('middle_name').value.trim();
-        const last = document.getElementById('last_name').value.trim();
+        const first = toTitleCase(document.getElementById('first_name').value.trim());
+        const middle = toTitleCase(document.getElementById('middle_name').value.trim());
+        const last = toTitleCase(document.getElementById('last_name').value.trim());
         
         let fullName = first;
         if (middle) fullName += ' ' + middle;
