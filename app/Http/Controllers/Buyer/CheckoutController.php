@@ -13,17 +13,25 @@ use Illuminate\Support\Facades\Cache;
 
 class CheckoutController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
+        $selectedIds = $request->input('selected_items', []);
+
+        if (empty($selectedIds)) {
+            return redirect()->route('buyer.cart')->with('status', 'no-items-selected');
+        }
+
         $cart = Cart::where('user_id', Auth::id())
-            ->with(['items.product:id,name,price,image,stock'])
+            ->with(['items' => function ($query) use ($selectedIds) {
+                $query->whereIn('id', $selectedIds)->with('product:id,name,price,image,stock');
+            }])
             ->first();
 
         if (!$cart || $cart->items->isEmpty()) {
             return redirect()->route('buyer.cart')->with('status', 'cart-empty');
         }
 
-        return view('buyer.checkout', compact('cart'));
+        return view('buyer.checkout', compact('cart', 'selectedIds'));
     }
 
     public function process(Request $request)
@@ -31,9 +39,17 @@ class CheckoutController extends Controller
         $request->validate([
             'shipping_address' => 'required|string|max:500',
             'payment_method' => 'required|string',
+            'selected_items' => 'required|array',
+            'selected_items.*' => 'exists:cart_items,id',
         ]);
 
-        $cart = Cart::where('user_id', Auth::id())->with('items.product')->first();
+        $selectedIds = $request->selected_items;
+
+        $cart = Cart::where('user_id', Auth::id())
+            ->with(['items' => function ($query) use ($selectedIds) {
+                $query->whereIn('id', $selectedIds)->with('product');
+            }])
+            ->first();
 
         if (!$cart || $cart->items->isEmpty()) {
             return redirect()->route('buyer.cart');
@@ -62,9 +78,10 @@ class CheckoutController extends Controller
                 $item->product->decrement('stock', $item->quantity);
                 
                 Cache::forget("product_detail_{$item->product_id}");
+                
+                // Delete only the items that were checked out
+                $item->delete();
             }
-
-            $cart->items()->delete();
             
             Cache::flush();
         });
