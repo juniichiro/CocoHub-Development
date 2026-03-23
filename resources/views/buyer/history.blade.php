@@ -7,8 +7,8 @@
     @include('layouts.navigation')
 
     <main class="flex-grow max-w-7xl mx-auto px-8 lg:px-20 py-12 w-full">
-        <header class="mb-10 flex flex-col md:flex-row md:items-end justify-between gap-4">
-            <div class="text-center md:text-left">
+        <header class="mb-10 flex flex-col md:flex-row md:items-end justify-between gap-4 text-center md:text-left">
+            <div>
                 <span class="text-[#738D56] text-xs font-bold uppercase tracking-[0.2em] bg-[#738D56]/10 px-3 py-1 rounded-full">Account Activity</span>
                 <h1 class="text-3xl lg:text-4xl font-bold text-gray-900 mt-3 leading-tight">History<br class="hidden md:block"> Transactions</h1>
             </div>
@@ -56,13 +56,13 @@
                     <div class="space-y-4 flex-grow">
                         @foreach($order->items as $item)
                         <div class="flex items-center gap-4 bg-[#F9F7F2]/40 p-3 rounded-2xl border border-gray-50/50">
-                            <div class="w-14 h-14 shrink-0 rounded-xl overflow-hidden shadow-sm bg-white">
+                            <div class="w-14 h-14 shrink-0 rounded-xl overflow-hidden shadow-sm bg-white border border-gray-50">
                                 <img src="{{ asset('images/products/' . ($item->product->image ?? 'placeholder.png')) }}" 
                                      class="w-full h-full object-cover">
                             </div>
                             <div class="overflow-hidden">
                                 <p class="text-sm font-black text-gray-800 truncate">{{ $item->product->name }}</p>
-                                <p class="text-[10px] text-gray-400 font-bold uppercase">
+                                <p class="text-[10px] text-gray-400 font-bold uppercase tracking-tight">
                                     {{ $item->quantity }} Units @ ₱{{ number_format($item->price, 2) }}
                                 </p>
                             </div>
@@ -80,8 +80,22 @@
                             </div>
                         </div>
 
-                        <div class="flex flex-col gap-2">
-                            @if($order->status == 'Completed')
+                        <div class="flex flex-col gap-2 w-1/2">
+                            @if($order->status == 'Awaiting Shipping')
+                                <form action="{{ route('buyer.order.cancel', $order->id) }}" method="POST" onsubmit="return confirm('Cancel this order?')">
+                                    @csrf
+                                    <button type="submit" class="w-full px-6 py-3 bg-red-50 text-red-500 text-[10px] font-black uppercase tracking-widest rounded-xl hover:bg-red-100 transition-all border border-red-100 transform active:scale-95">
+                                        Cancel Order
+                                    </button>
+                                </form>
+                            @elseif($order->status == 'On Delivery')
+                                <form action="{{ route('buyer.order.receive', $order->id) }}" method="POST">
+                                    @csrf
+                                    <button type="submit" class="w-full px-6 py-3 bg-[#738D56] text-white text-[10px] font-black uppercase tracking-widest rounded-xl hover:bg-[#5f7547] transition-all shadow-lg shadow-[#738D56]/20 transform active:scale-95">
+                                        Order Received
+                                    </button>
+                                </form>
+                            @elseif($order->status == 'Completed')
                                 @if(!$order->is_rated)
                                     <button type="button" onclick="openRatingModal({{ $order->id }})" 
                                         class="w-full px-6 py-3 bg-amber-400 text-white text-[10px] font-black uppercase tracking-widest rounded-xl hover:bg-amber-500 transition-all shadow-lg shadow-amber-400/20 transform active:scale-95">
@@ -94,17 +108,19 @@
                                 @endif
                             @endif
 
-                            @if($order->items->first())
-                            <form action="{{ route('buyer.cart.add', $order->items->first()->product_id) }}" method="POST">
-                                @csrf
-                                <button type="submit" class="w-full px-6 py-3 bg-[#738D56] text-white text-[10px] font-black uppercase tracking-widest rounded-xl hover:bg-[#5f7547] transition-all shadow-lg shadow-[#738D56]/20 transform active:scale-95">
-                                    Buy Again
+                            <div class="grid grid-cols-2 gap-2 mt-1">
+                                @if($order->items->first())
+                                <form action="{{ route('buyer.cart.add', $order->items->first()->product_id) }}" method="POST">
+                                    @csrf
+                                    <button type="submit" class="w-full py-2.5 bg-white text-gray-400 text-[9px] font-black uppercase tracking-widest rounded-xl border border-gray-100 hover:text-[#738D56] hover:border-[#738D56]/20 transition-all">
+                                        Reorder
+                                    </button>
+                                </form>
+                                @endif
+                                <button type="button" class="w-full py-2.5 bg-white text-gray-400 text-[9px] font-black uppercase tracking-widest rounded-xl border border-gray-100 hover:bg-gray-50 transition-all">
+                                    Receipt
                                 </button>
-                            </form>
-                            @endif
-                            <button class="w-full px-6 py-3 bg-white text-gray-400 text-[10px] font-black uppercase tracking-widest rounded-xl border border-gray-100 hover:bg-gray-50 transition-all">
-                                Get Receipt
-                            </button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -115,7 +131,7 @@
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
                         </svg>
                     </div>
-                    <p class="text-gray-400 font-black uppercase tracking-widest text-xs">No transactions to display</p>
+                    <p class="text-gray-400 font-black uppercase tracking-widest text-xs">No transactions found</p>
                 </div>
             @endforelse
         </div>
@@ -124,7 +140,8 @@
     <x-buyer-footer />
 </div>
 
-<div id="ratingModal" class="fixed inset-0 z-50 hidden bg-black/60 backdrop-blur-sm flex items-center justify-center p-6">
+{{-- Rating Modal --}}
+<div id="ratingModal" class="fixed inset-0 z-50 hidden bg-black/60 backdrop-blur-sm flex items-center justify-center p-6" x-cloak>
     <div class="bg-white rounded-[3rem] w-full max-w-lg p-10 shadow-2xl animate-fade-in">
         <div class="flex justify-between items-start mb-8">
             <div>
@@ -144,13 +161,10 @@
             
             <div class="text-center space-y-4">
                 <p class="text-[10px] font-black text-gray-400 uppercase tracking-[0.2em]">Your Overall Rating</p>
-                
                 <div class="flex flex-row-reverse justify-center gap-2 text-4xl star-rating">
                     @for($i = 5; $i >= 1; $i--)
                         <input type="radio" id="star{{ $i }}" name="rating" value="{{ $i }}" class="hidden peer" required>
-                        <label for="star{{ $i }}" class="cursor-pointer text-gray-200 transition-colors duration-200 hover:text-yellow-300 peer-checked:text-yellow-400">
-                            ★
-                        </label>
+                        <label for="star{{ $i }}" class="cursor-pointer text-gray-200 transition-colors duration-200 hover:text-yellow-300 peer-checked:text-yellow-400">★</label>
                     @endfor
                 </div>
             </div>
@@ -183,16 +197,11 @@
 </script>
 
 <style>
+    [x-cloak] { display: none !important; }
     .animate-fade-in { animation: fadeIn 0.3s ease-out forwards; }
     @keyframes fadeIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
 
-    .star-rating input[type="radio"]:checked ~ label {
-        color: #fbbf24; 
-    }
-
-    .star-rating label:hover ~ label,
-    .star-rating label:hover {
-        color: #fcd34d; 
-    }
+    .star-rating input[type="radio"]:checked ~ label { color: #fbbf24; }
+    .star-rating label:hover ~ label, .star-rating label:hover { color: #fcd34d; }
 </style>
 @endsection

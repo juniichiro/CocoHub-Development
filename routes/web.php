@@ -51,6 +51,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::controller(HistoryController::class)->group(function () {
             Route::get('/history', 'index')->name('history');
             Route::post('/history/review', 'storeReview')->name('reviews.store');
+            Route::post('/orders/{order}/cancel', 'cancel')->name('order.cancel');
+            Route::post('/orders/{order}/receive', 'receive')->name('order.receive');
         });
 
         Route::controller(CartController::class)->group(function () {
