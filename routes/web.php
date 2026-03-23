@@ -53,6 +53,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
             Route::post('/history/review', 'storeReview')->name('reviews.store');
             Route::post('/orders/{order}/cancel', 'cancel')->name('order.cancel');
             Route::post('/orders/{order}/receive', 'receive')->name('order.receive');
+            Route::get('/orders/{order}/receipt', 'downloadReceipt')->name('order.receipt');
         });
 
         Route::controller(CartController::class)->group(function () {
