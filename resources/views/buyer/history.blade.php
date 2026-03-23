@@ -120,13 +120,13 @@
                                 @if($order->items->first())
                                 <form action="{{ route('buyer.cart.add', $order->items->first()->product_id) }}" method="POST">
                                     @csrf
-                                    <button type="submit" class="w-full py-2.5 bg-white text-gray-400 text-[9px] font-black uppercase tracking-widest rounded-xl border border-gray-100 hover:text-[#738D56] hover:border-[#738D56]/20 transition-all">
+                                    <button type="submit" class="w-full py-2.5 bg-white text-gray-500 text-[9px] font-black uppercase tracking-widest rounded-xl border-2 border-gray-100 hover:text-[#738D56] hover:border-[#738D56]/20 transition-all">
                                         Reorder
                                     </button>
                                 </form>
                                 @endif
                                 <a href="{{ route('buyer.order.receipt', $order->id) }}" 
-                                class="w-full py-2.5 bg-white text-gray-400 text-[9px] font-black uppercase tracking-widest rounded-xl border border-gray-100 hover:bg-gray-50 transition-all text-center flex items-center justify-center">
+                                class="w-full py-2.5 bg-white text-gray-500 text-[9px] font-black uppercase tracking-widest rounded-xl border-2 border-gray-100 hover:bg-gray-50 transition-all text-center flex items-center justify-center">
                                     Receipt
                                 </a>
                             </div>
