@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\File;
 use Illuminate\Validation\Rules\Password;
 use Illuminate\View\View;
+use Illuminate\Support\Str;
 
 class ProfileController extends Controller
 {
@@ -26,8 +27,14 @@ class ProfileController extends Controller
 
     public function update(ProfileUpdateRequest $request): RedirectResponse
     {
-        $request->validate([
-            'profile_photo' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif,webp', 'max:2048'],
+        $validated = $request->validate([
+            'first_name'    => 'required|string|max:255',
+            'middle_name'   => 'nullable|string|max:255',
+            'last_name'     => 'required|string|max:255',
+            'phone_number'  => 'required|string|max:20',
+            'age'           => 'nullable|integer|min:0',
+            'address'       => 'nullable|string|max:500',
+            'profile_photo' => 'nullable|image|mimes:jpg,png,jpeg|max:2048',
         ]);
 
         $user = $request->user();
@@ -38,40 +45,37 @@ class ProfileController extends Controller
         }
         $user->save();
 
-        $detailsData = $request->only([
-            'first_name', 
-            'middle_name', 
-            'last_name', 
-            'phone_number', 
-            'age', 
-            'address'
-        ]);
-
-        $relation = $user->role_id == 1 ? 'sellerDetail' : 'buyerDetail';
+        $details = $user->role_id == 1 ? $user->sellerDetail : $user->buyerDetail;
 
         if ($request->hasFile('profile_photo')) {
+            // Delete old photo if it exists
+            if ($details->profile_picture) {
+                $oldPath = public_path('images/profile/' . $details->profile_picture);
+                if (File::exists($oldPath)) {
+                    File::delete($oldPath);
+                }
+            }
+
             $file = $request->file('profile_photo');
             
             $firstNameOnly = explode(' ', trim($request->first_name))[0];
-            $cleanName = strtolower($firstNameOnly);
-            $filename = $cleanName . '.' . $file->getClientOriginalExtension();
+            $safeName = str_replace('-', '_', Str::slug($firstNameOnly));
+            
+            $filename = $safeName . '.' . $file->getClientOriginalExtension();
 
-            $targetDir = public_path('images/profile');
+            $file->move(public_path('images/profile'), $filename);
 
-            if (!File::exists($targetDir)) {
-                File::makeDirectory($targetDir, 0755, true);
-            }
-
-            $oldPhoto = $user->$relation->profile_picture;
-            if ($oldPhoto && File::exists($targetDir . '/' . $oldPhoto)) {
-                File::delete($targetDir . '/' . $oldPhoto);
-            }
-
-            $file->move($targetDir, $filename);
-            $detailsData['profile_picture'] = $filename;
+            $details->profile_picture = $filename;
         }
 
-        $user->$relation()->update($detailsData);
+        $details->first_name = $validated['first_name'];
+        $details->middle_name = $validated['middle_name'];
+        $details->last_name = $validated['last_name'];
+        $details->phone_number = $validated['phone_number'];
+        $details->age = $validated['age'];
+        $details->address = $validated['address'];
+        
+        $details->save();
 
         return Redirect::route('profile.edit')->with('status', 'profile-updated');
     }

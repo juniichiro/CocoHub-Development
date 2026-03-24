@@ -26,13 +26,24 @@
             </div>
         @endif
 
+        {{-- Validation Error Alert --}}
+        @if($errors->has('profile_photo'))
+            <div class="mb-8 p-4 bg-red-50 border border-red-100 text-red-600 text-sm font-bold rounded-2xl animate-shake flex items-center gap-3">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
+                </svg>
+                <span>{{ $errors->first('profile_photo') }}</span>
+            </div>
+        @endif
+
         <div class="flex flex-col lg:flex-row gap-8 items-start mb-12">
             
-            {{-- Account Summary Sidebar --}}
+            {{-- Account Details --}}
             <div class="w-full lg:w-3/5 bg-white rounded-[2.5rem] p-8 sm:p-12 shadow-sm border border-gray-50 flex flex-col items-center">
-                {{-- Avatar Showcase --}}
+
+                {{-- Profile Picture--}}
                 <div class="relative mb-12">
-                    <div class="w-40 h-40 rounded-full border-4 border-[#F9F7F2] overflow-hidden shadow-sm">
+                    <div class="w-40 h-40 rounded-full border-4 border-[#F9F7F2] overflow-hidden shadow-sm {{ $errors->has('profile_photo') ? 'border-red-200' : '' }}">
                         <template x-if="photoPreview">
                             <img :src="photoPreview" class="w-full h-full object-cover">
                         </template>
@@ -96,15 +107,17 @@
                         @csrf
                         @method('PATCH')
 
-                        <input type="file" name="profile_photo" id="profile_photo" class="hidden" accept="image/*"
-                            @change="
-                                const file = $event.target.files[0];
-                                if (file) {
-                                    const reader = new FileReader();
-                                    reader.onload = (e) => { photoPreview = e.target.result; };
-                                    reader.readAsDataURL(file);
-                                }
-                            ">
+                        <div class="hidden">
+                            <input type="file" name="profile_photo" id="profile_photo" accept="image/*"
+                                @change="
+                                    const file = $event.target.files[0];
+                                    if (file) {
+                                        const reader = new FileReader();
+                                        reader.onload = (e) => { photoPreview = e.target.result; };
+                                        reader.readAsDataURL(file);
+                                    }
+                                ">
+                        </div>
 
                         <div>
                             <label class="block text-[12px] font-bold text-gray-400 uppercase tracking-widest mb-3 ml-1">Complete Name</label>
@@ -137,7 +150,7 @@
                         </div>
 
                         <div class="pt-4">
-                            <button type="submit" class="w-full py-4 bg-[#738D56] text-white font-bold rounded-2xl hover:bg-[#5f7547] transition-all shadow-lg shadow-[#738D56]/20 transform active:scale-[0.98]">
+                            <button type="submit" class="w-full py-4 bg-[#738D56] text-white font-bold rounded-2xl hover:bg-[#5f7547] transition-all shadow-lg shadow-[#738D56]/10 transform active:scale-[0.98]">
                                 Update Store Profile
                             </button>
                         </div>
