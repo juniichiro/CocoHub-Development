@@ -18,10 +18,8 @@ class HistoryController extends Controller
     {
         $userId = Auth::id();
         
-        // Get or initialize the cache version for this user
         $version = Cache::rememberForever('user_history_v_' . $userId, fn() => time());
 
-        // Build a cache key that includes the version, status, and search query
         $cacheKey = "user_history_{$userId}_v{$version}_" . md5(json_encode($request->only(['status', 'search'])));
 
         $orders = Cache::remember($cacheKey, 3600, function () use ($request, $userId) {
@@ -39,7 +37,6 @@ class HistoryController extends Controller
             return $query->latest()->get();
         });
 
-        // Ensure is_rated is attached to each order object
         $orders->each(function ($order) {
             $order->is_rated = $order->review !== null;
         });
@@ -57,7 +54,6 @@ class HistoryController extends Controller
             $order->update(['status' => 'Cancelled']);
 
             foreach ($order->items as $item) {
-                // Restore stock for each item
                 $item->product->increment('stock', $item->quantity);
                 Cache::forget("product_detail_{$item->product_id}");
             }
@@ -96,7 +92,6 @@ class HistoryController extends Controller
             ->with('items.product')
             ->firstOrFail();
 
-        // Check if a review already exists to prevent double submission
         if ($order->review()->exists()) {
             return back()->with('error', 'You have already rated this order.');
         }
@@ -139,7 +134,6 @@ class HistoryController extends Controller
             abort(403);
         }
 
-        // Load relationships for the customer name check
         $order->load(['items.product', 'user.buyerDetail']);
 
         $data = [
@@ -149,13 +143,9 @@ class HistoryController extends Controller
 
         $pdf = Pdf::loadView('buyer.receipt_pdf', $data);
         
-        // Set paper to A4 or custom size if needed
         return $pdf->setPaper('a4')->download('Receipt_Order_' . $order->id . '.pdf');
     }
 
-    /**
-     * Cache-Busting logic: Update the version timestamp to invalidate all cached history views for the user.
-     */
     private function clearHistoryCache()
     {
         Cache::forever('user_history_v_' . Auth::id(), time());

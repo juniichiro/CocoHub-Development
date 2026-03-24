@@ -5,7 +5,8 @@
 @section('content')
 <div class="flex flex-col min-h-screen">
     <div class="flex-grow">
-        {{-- Header Section --}}
+        
+        {{-- Section Header --}}
         <div class="flex flex-col sm:flex-row justify-between items-center mb-10 gap-4 text-center sm:text-left">
             <div>
                 <p class="text-[#738D56] text-xs font-bold uppercase tracking-widest mb-1">Edit Storefront</p>
@@ -16,7 +17,7 @@
             </a>
         </div>
 
-        {{-- Alerts --}}
+        {{-- Error Messages--}}
         @if ($errors->any())
             <div class="mb-6 p-4 bg-red-100 text-red-700 rounded-2xl border-l-4 border-red-500">
                 <ul class="list-disc pl-5">
@@ -33,12 +34,14 @@
             </div>
         @endif
 
+        {{-- Edit Form --}}
         <form action="{{ route('seller.storefront.update') }}" method="POST" enctype="multipart/form-data">
             @csrf
             @method('PATCH')
             
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
-                {{-- Text Content Section --}}
+
+                {{-- Hero Image Configuration --}}
                 <div class="bg-white rounded-[2.5rem] p-8 sm:p-10 shadow-sm border border-gray-50 space-y-6">
                     <div>
                         <label class="block text-sm font-bold text-gray-700 mb-3 ml-1">Hero Section Badge</label>
@@ -59,7 +62,7 @@
                     </div>
                 </div>
 
-                {{-- Image Upload Section --}}
+                {{-- Banner Asset Management --}}
                 <div class="bg-white rounded-[2.5rem] p-8 sm:p-10 shadow-sm border border-gray-50 flex flex-col h-full">
                     <label class="block text-sm font-bold text-gray-700 mb-6 ml-1">Main Image Banner</label>
                     <div onclick="document.getElementById('banner_input').click()" 
@@ -83,7 +86,7 @@
                 </div>
             </div>
 
-            {{-- Featured Slots --}}
+            {{-- Featured Product Selection --}}
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
                 @for($i = 1; $i <= 4; $i++)
                 @php 
@@ -127,6 +130,7 @@
                 @endfor
             </div>
 
+            {{-- Form Update Button --}}
             <div class="flex justify-center sm:justify-end gap-4 mb-12">
                 <button type="submit" class="w-full sm:w-auto px-12 py-4 bg-[#738D56] text-white font-bold rounded-2xl shadow-xl shadow-[#738D56]/20 hover:bg-[#5f7547] transition-all transform active:scale-95">
                     Update Storefront
@@ -135,6 +139,7 @@
         </form>
     </div>
     
+    {{-- Footer Component --}}
     <div class="mt-4">
         <x-seller-footer />
     </div>

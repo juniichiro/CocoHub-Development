@@ -22,6 +22,7 @@
 
     {{-- Hero Section --}}
     <main class="w-full flex flex-col lg:flex-row items-center justify-between px-8 sm:px-12 lg:px-20 py-12 lg:py-24 gap-12 lg:gap-20">
+        {{-- Hero Text Content --}}
         <div class="w-full lg:w-1/2 flex flex-col space-y-6 animate-fade-in-up text-center lg:text-left items-center lg:items-start">
             <div>
                 <span class="text-[#738D56] text-[10px] sm:text-xs font-bold uppercase tracking-[0.2em] bg-[#738D56]/10 px-4 py-1.5 rounded-full">
@@ -52,6 +53,7 @@
             </div>
         </div>
 
+        {{-- Hero Banner Image --}}
         <div class="w-full lg:w-1/2 flex justify-center lg:justify-end shrink-0">
             <div class="relative w-full max-w-md md:max-w-lg lg:max-w-xl group">
                 <div class="absolute -top-4 -right-4 w-full h-full border-2 border-[#738D56]/20 rounded-[2.5rem] sm:rounded-[3rem] -z-10 transition-transform group-hover:translate-x-2 group-hover:-translate-y-2"></div>
@@ -68,11 +70,13 @@
 
     {{-- Featured Section --}}
     <section id="featured" class="px-8 sm:px-12 lg:px-20 py-24 bg-white rounded-t-[3rem] sm:rounded-t-[4rem] shadow-[0_-20px_50px_-20px_rgba(0,0,0,0.05)]">
+        {{-- Section Header --}}
         <div class="mb-12 text-center sm:text-left">
             <h2 class="text-3xl sm:text-4xl font-bold text-gray-900">Featured Curations</h2>
             <p class="text-gray-400 text-sm sm:text-base font-medium mt-2">Handpicked quality for your sustainable lifestyle.</p>
         </div>
 
+        {{-- Product Grid --}}
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
             @php
                 $featuredSlots = [
@@ -89,8 +93,10 @@
                         $badgeKey = 'featured_badge_' . ($index + 1);
                         $badgeText = $settings->$badgeKey ?? 'Featured';
                     @endphp
+                    {{-- Product Card --}}
                     <div class="bg-[#F9F7F2]/50 rounded-[2rem] sm:rounded-[2.5rem] p-4 transition-all duration-300 hover:bg-white hover:shadow-xl hover:shadow-gray-200/50 group flex flex-col h-full">
                         
+                        {{-- Image Container --}}
                         <a href="{{ route('buyer.product.show', $product->id) }}" class="relative aspect-square rounded-[1.5rem] sm:rounded-[2rem] overflow-hidden mb-6 bg-gray-50 block">
                             <span class="absolute top-4 left-4 z-10 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-[9px] sm:text-[10px] font-bold text-gray-700 uppercase tracking-tight">
                                 {{ $badgeText }}
@@ -100,6 +106,7 @@
                                  class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 {{ $product->stock <= 0 ? 'grayscale opacity-60' : '' }}">
                         </a>
                         
+                        {{-- Card Details --}}
                         <div class="px-2 space-y-3 flex-grow flex flex-col">
                             <a href="{{ route('buyer.product.show', $product->id) }}" class="block">
                                 <h3 class="text-base sm:text-lg font-bold text-gray-800 leading-tight group-hover:text-[#738D56] transition-colors min-h-[3rem]">
@@ -111,6 +118,7 @@
                                 <span class="text-xl sm:text-2xl font-bold text-[#738D56]">₱{{ number_format($product->price, 2) }}</span>
                             </div>
                             
+                            {{-- Add to Cart Action --}}
                             <div class="mt-auto pt-4">
                                 <form action="{{ route('buyer.cart.add', $product->id) }}" method="POST">
                                     @csrf
@@ -131,6 +139,7 @@
     {{-- About Section --}}
     <section class="px-8 sm:px-12 lg:px-20 py-24 bg-[#F9F7F2]">
         <div class="max-w-7xl mx-auto flex flex-col lg:flex-row items-center gap-12 lg:gap-16">
+            {{-- Brand Description --}}
             <div class="w-full lg:w-1/2 space-y-6 text-center lg:text-left items-center lg:items-start flex flex-col lg:block">
                 <span class="text-[#738D56] text-[10px] sm:text-xs font-bold uppercase tracking-widest">About CocoHub</span>
                 <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 leading-tight max-w-xl">
@@ -141,6 +150,7 @@
                 </p>
             </div>
 
+            {{-- About Image Container --}}
             <div class="w-full lg:w-1/2">
                 <div class="aspect-[16/9] sm:aspect-[4/3] rounded-[2.5rem] sm:rounded-[3rem] overflow-hidden shadow-sm bg-white">
                     <img src="{{ asset('images/about.png') }}" alt="Sustainability" class="w-full h-full object-cover">

@@ -10,7 +10,7 @@ class StorefrontSettingsSeeder extends Seeder
     public function run(): void
     {
         StorefrontSetting::updateOrCreate(
-            ['id' => 1], // Ensures we only ever have one record
+            ['id' => 1],
             [
                 'banner_title'      => 'Sustainable Coconut Coir Products for Everyday Use',
                 'short_description' => 'Browse curated coconut coir products for gardening, home, and construction.',

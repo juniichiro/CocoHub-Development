@@ -5,21 +5,18 @@
 @section('content')
 <div class="flex flex-col min-h-screen" 
      x-data="{ 
-        openDeleteModal: {{ $errors->userDeletion->any() ? 'true' : 'false' }}, 
-        deleteUrl: '{{ route('profile.destroy') }}', 
-        modalTitle: 'Deactivate Account?',
-        modalMessage: 'Are you sure you want to proceed? This will permanently remove your seller account and all store history.',
         photoPreview: null 
      }">
     
     <div class="flex-grow">
-        {{-- Header Section --}}
+        
+        {{-- Section Header --}}
         <header class="mb-10 text-center sm:text-left">
             <p class="text-[#738D56] text-xs font-bold uppercase tracking-widest mb-1">Your Profile</p>
             <h2 class="text-3xl sm:text-4xl font-bold text-gray-900">Manage Profile</h2>
         </header>
 
-        {{-- Status Messages --}}
+        {{-- Status Notifications --}}
         @if(session('status') === 'profile-updated' || session('status') === 'password-updated')
             <div class="mb-8 p-4 bg-green-50 border border-green-100 text-[#738D56] text-sm font-bold rounded-2xl animate-fade-in flex items-center gap-3">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
@@ -31,8 +28,9 @@
 
         <div class="flex flex-col lg:flex-row gap-8 items-start mb-12">
             
-            {{-- Left Side: Account Summary --}}
+            {{-- Account Summary Sidebar --}}
             <div class="w-full lg:w-3/5 bg-white rounded-[2.5rem] p-8 sm:p-12 shadow-sm border border-gray-50 flex flex-col items-center">
+                {{-- Avatar Showcase --}}
                 <div class="relative mb-12">
                     <div class="w-40 h-40 rounded-full border-4 border-[#F9F7F2] overflow-hidden shadow-sm">
                         <template x-if="photoPreview">
@@ -54,6 +52,7 @@
                     </button>
                 </div>
 
+                {{-- Account Data --}}
                 <div class="w-full space-y-2 px-4">
                     <div class="flex justify-between items-center py-5 border-b border-gray-50">
                         <span class="font-bold text-gray-400 uppercase tracking-widest text-[10px]">Full Name</span>
@@ -84,19 +83,12 @@
                         <span class="font-bold text-gray-700">{{ $user->email }}</span>
                     </div>
                 </div>
-
-                <div class="w-full mt-10 pt-6 border-t border-gray-50 text-center">
-                    <button type="button" 
-                        @click="openDeleteModal = true" 
-                        class="text-[10px] font-bold text-red-400 uppercase tracking-widest hover:text-red-600 transition-colors">
-                        Deactivate Seller Account
-                    </button>
-                </div>
             </div>
 
-            {{-- Right Side: Editable Forms --}}
+            {{-- Form Section --}}
             <div class="w-full lg:w-2/5 space-y-8">
-                {{-- Edit Profile Form --}}
+
+                {{-- Edit Information Card --}}
                 <div class="bg-white rounded-[2.5rem] p-8 sm:p-10 shadow-sm border border-gray-50">
                     <h3 class="text-lg font-bold text-[#6D4C41] mb-8">Edit Profile</h3>
 
@@ -145,14 +137,14 @@
                         </div>
 
                         <div class="pt-4">
-                            <button type="submit" class="w-full py-4 bg-[#738D56] text-white font-bold rounded-2xl hover:bg-[#5f7547] transition-all shadow-lg shadow-[#738D56]/10 transform active:scale-[0.98]">
+                            <button type="submit" class="w-full py-4 bg-[#738D56] text-white font-bold rounded-2xl hover:bg-[#5f7547] transition-all shadow-lg shadow-[#738D56]/20 transform active:scale-[0.98]">
                                 Update Store Profile
                             </button>
                         </div>
                     </form>
                 </div>
 
-                {{-- Security Form --}}
+                {{-- Security Settings Card --}}
                 <div class="bg-white rounded-[2.5rem] p-8 sm:p-10 shadow-sm border border-gray-50"
                      x-data="{ 
                         password: '', 
@@ -220,10 +212,9 @@
         </div>
     </div>
 
+    {{-- Footer Component --}}
     <div class="mt-4">
         <x-seller-footer />
     </div>
-
-    <x-delete-modal id="openDeleteModal" action="deleteUrl" :requirePassword="true" />
 </div>
 @endsection

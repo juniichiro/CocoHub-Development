@@ -79,7 +79,6 @@ class CheckoutController extends Controller
                 
                 Cache::forget("product_detail_{$item->product_id}");
                 
-                // Delete only the items that were checked out
                 $item->delete();
             }
             

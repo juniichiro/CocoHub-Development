@@ -5,8 +5,10 @@
 @section('content')
 
 <div class="min-h-screen bg-[#F9F7F2] flex flex-col" x-data="cartManager(@js($cart->items ?? []))">
+    
     @include('layouts.navigation')
 
+    {{-- Cart Header Section --}}
     <main class="flex-grow max-w-7xl mx-auto px-6 sm:px-12 lg:px-20 py-8 lg:py-12 w-full">
         <header class="mb-8 lg:mb-10 text-center md:text-left flex flex-col md:flex-row md:items-end justify-between gap-6">
             <div>
@@ -14,6 +16,7 @@
                 <h1 class="text-3xl sm:text-4xl font-bold text-gray-900 mt-3">Shopping Cart</h1>
             </div>
             
+            {{-- Bulk Selection Toggle --}}
             @if(count($cart->items ?? []) > 0)
                 <label class="flex items-center justify-center md:justify-start gap-3 cursor-pointer group bg-white px-5 py-3 rounded-2xl border border-gray-100 shadow-sm hover:border-[#738D56]/30 transition-all">
                     <input type="checkbox" 
@@ -25,18 +28,20 @@
             @endif
         </header>
 
+        {{-- Cart Form  --}}
         <form action="{{ route('buyer.checkout') }}" method="GET" id="cart-form">
             <div class="flex flex-col lg:flex-row gap-8 items-start">
                 
-                {{-- Item List --}}
+                {{-- Item List Container --}}
                 <div class="w-full lg:w-2/3 bg-white rounded-[2.5rem] p-6 sm:p-10 shadow-sm border border-gray-50">
                     <h2 class="text-xl font-bold text-gray-800 mb-8">Items in Cart</h2>
                     
                     <div class="space-y-8">
                         @forelse($cart->items ?? [] as $item)
+                            {{-- Individual Cart Item --}}
                             <div class="flex flex-col sm:grid sm:grid-cols-12 items-start sm:items-center gap-6 pb-8 border-b border-gray-100 last:border-0 last:pb-0">
                                 
-                                {{-- Selection Checkbox --}}
+                                {{-- Item Selection Checkbox --}}
                                 <div class="sm:col-span-1">
                                     <input type="checkbox" 
                                            name="selected_items[]" 
@@ -52,7 +57,7 @@
                                          class="w-full h-full object-cover">
                                 </div>
                                 
-                                {{-- Product Info & Quantity --}}
+                                {{-- Item Data --}}
                                 <div class="flex-grow w-full sm:col-span-5 lg:col-span-6 space-y-2">
                                     <h3 class="text-lg font-bold text-gray-800 leading-tight">{{ $item->product->name }}</h3>
                                     <div class="flex items-center gap-4">
@@ -64,13 +69,14 @@
                                     </div>
                                 </div>
                                 
-                                {{-- Price Subtotal --}}
+                                {{-- Subtotal and Unit Pricing --}}
                                 <div class="w-full sm:col-span-3 flex sm:flex-col justify-between sm:justify-center items-center sm:items-end border-t sm:border-t-0 pt-4 sm:pt-0">
                                     <span class="text-xl font-black text-gray-900">₱{{ number_format($item->product->price * $item->quantity, 2) }}</span>
                                     <p class="text-[10px] text-gray-400 font-bold uppercase tracking-widest">₱{{ number_format($item->product->price, 2) }} EA</p>
                                 </div>
                             </div>
                         @empty
+                            {{-- Empty State Display --}}
                             <div class="py-20 text-center flex flex-col items-center">
                                 <div class="w-20 h-20 bg-[#F9F7F2] rounded-[2rem] flex items-center justify-center mb-6">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -84,11 +90,12 @@
                     </div>
                 </div>
 
-                {{-- Summary Sidebar --}}
+                {{-- Order Summary Sidebar --}}
                 <div class="w-full lg:w-1/3 space-y-4 lg:sticky lg:top-28">
                     <div class="bg-white rounded-[2.5rem] p-8 sm:p-10 shadow-sm border border-gray-50">
                         <h2 class="text-xl font-bold text-gray-800 mb-8">Order Totals</h2>
                         
+                        {{-- Calculation Breakdown --}}
                         <div class="space-y-5">
                             <div class="flex justify-between items-center text-sm sm:text-base">
                                 <span class="text-gray-400 font-medium">Selected Subtotal</span>
@@ -105,6 +112,7 @@
                                 <span class="text-2xl font-black text-[#738D56]">₱<span x-text="formatNumber(total)">0.00</span></span>
                             </div>
 
+                            {{-- Checkout Actions --}}
                             <div class="space-y-4 pt-8">
                                 <button type="submit" 
                                         :disabled="selectedItems.length === 0"
@@ -123,6 +131,7 @@
         </form>
     </main>
 
+    {{-- Footer Component --}}
     <x-buyer-footer />
 </div>
 @endsection

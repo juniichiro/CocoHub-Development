@@ -6,7 +6,7 @@
 <div class="min-h-screen bg-[#F9F7F2] flex flex-col">
     @include('layouts.navigation')
 
-    {{-- Error Toast --}}
+    {{-- Error Message --}}
     @if(session('status') === 'cart-empty')
         <div class="fixed top-24 right-4 sm:right-8 z-50 p-4 bg-red-500 text-white text-sm font-bold rounded-2xl shadow-lg shadow-red-500/20 animate-fade-in flex items-center gap-4 max-w-[90vw]">
             <div class="flex items-center gap-2">
@@ -24,12 +24,14 @@
     @endif
 
     <main class="flex-grow max-w-7xl mx-auto px-6 sm:px-12 lg:px-20 py-8 lg:py-12 w-full">
+        {{-- Checkout Header --}}
         <header class="mb-10 text-center sm:text-left">
             <span class="text-[#738D56] text-[10px] sm:text-xs font-bold uppercase tracking-[0.2em] bg-[#738D56]/10 px-3 py-1 rounded-full">Secure Transaction</span>
             <h1 class="text-3xl sm:text-4xl font-bold text-gray-900 mt-4">Checkout</h1>
         </header>
 
         @if(!$cart || $cart->items->isEmpty())
+            {{-- Empty State --}}
             <div class="bg-white rounded-[2.5rem] p-12 sm:p-20 text-center shadow-sm border border-gray-50 animate-fade-in">
                 <div class="w-20 h-20 bg-[#F9F7F2] rounded-full flex items-center justify-center mx-auto mb-6 text-[#738D56]">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -43,12 +45,14 @@
                 </a>
             </div>
         @else
+            {{-- Checkout Form --}}
             <form action="{{ route('buyer.checkout.process') }}" method="POST" class="flex flex-col lg:flex-row gap-8 items-start">
                 @csrf
                 @foreach($cart->items as $item)
                     <input type="hidden" name="selected_items[]" value="{{ $item->id }}">
                 @endforeach
 
+                {{-- Step 1: Customer Information --}}
                 <div class="w-full lg:w-3/5 bg-white rounded-[2.5rem] p-6 sm:p-10 shadow-sm border border-gray-50">
                     <h2 class="text-xl font-bold text-[#6D4C41] mb-8 flex items-center gap-3">
                         <span class="w-8 h-8 bg-[#6D4C41]/10 rounded-full flex items-center justify-center text-sm">1</span>
@@ -83,6 +87,7 @@
                     </div>
                 </div>
 
+                {{-- Step 2: Payment & Fulfillment --}}
                 <div class="w-full lg:w-2/5 space-y-6" x-data="{ paymentCategory: 'Cash on Delivery' }">
                     <div class="bg-white rounded-[2.5rem] p-8 shadow-sm border border-gray-50">
                         <h2 class="text-lg font-bold text-gray-800 mb-6 flex items-center gap-3">
@@ -105,6 +110,7 @@
                                     <option value="Online Payment">Online Payment</option>
                                 </select>
                             </div>
+                            {{-- Payment Demo Block --}}
                             <div x-show="paymentCategory === 'Online Payment'" x-transition x-cloak class="pt-2">
                                 <div class="p-4 border-2 border-blue-50 rounded-2xl bg-blue-50/30 flex items-center gap-4">
                                     <div class="w-12 h-8 bg-white rounded-lg shadow-sm flex items-center justify-center overflow-hidden p-1">
@@ -116,6 +122,7 @@
                         </div>
                     </div>
 
+                    {{-- Order Summary --}}
                     <div class="bg-white rounded-[2.5rem] p-8 shadow-sm border border-gray-50 lg:sticky lg:top-28">
                         <h2 class="text-lg font-bold text-gray-800 mb-6">Order Summary</h2>
                         <div class="space-y-4">
@@ -124,6 +131,7 @@
                                 $deliveryFee = 80;
                             @endphp
                             
+                            {{-- Item Breakdown --}}
                             <div class="max-h-32 overflow-y-auto mb-4 space-y-3 pr-2 custom-scrollbar">
                                 @foreach($cart->items as $item)
                                 <div class="flex justify-between items-center text-xs font-bold">
@@ -133,6 +141,7 @@
                                 @endforeach
                             </div>
 
+                            {{-- Totals --}}
                             <div class="space-y-3 pt-4 border-t border-gray-100">
                                 <div class="flex justify-between items-center text-sm">
                                     <span class="text-gray-400 font-medium">Subtotal</span>

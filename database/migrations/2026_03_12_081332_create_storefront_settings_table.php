@@ -16,8 +16,6 @@ return new class extends Migration
             $table->string('banner_title')->nullable();
             $table->text('short_description')->nullable();
             $table->string('main_image')->nullable();
-
-            // Using foreignId makes the relationship explicit at the database level
             $table->foreignId('featured_1')->nullable()->constrained('products')->nullOnDelete();
             $table->foreignId('featured_2')->nullable()->constrained('products')->nullOnDelete();
             $table->foreignId('featured_3')->nullable()->constrained('products')->nullOnDelete();

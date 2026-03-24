@@ -5,7 +5,7 @@
 @section('content')
 <div class="flex flex-col min-h-screen">
     <div class="flex-grow">
-        {{-- Header Section --}}
+        {{-- Section Header --}}
         <header class="flex flex-col sm:flex-row justify-between items-center mb-10 gap-4 text-center sm:text-left">
             <div>
                 <h1 class="text-3xl sm:text-4xl font-bold text-gray-900 tracking-tight">Order Tracking</h1>
@@ -17,7 +17,7 @@
             </div>
         </header>
 
-        {{-- Success Alert --}}
+        {{-- Status Notifications --}}
         @if(session('status'))
             <div class="mb-8 p-4 bg-emerald-50 border border-emerald-100 text-emerald-600 text-sm font-bold rounded-2xl animate-fade-in shadow-sm flex items-center gap-3">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
@@ -27,7 +27,7 @@
             </div>
         @endif
 
-        {{-- Filters Section --}}
+        {{-- Search and Filter Controls --}}
         <div class="bg-white p-6 rounded-[2.5rem] shadow-sm mb-10 border border-gray-50 flex flex-col lg:flex-row gap-4">
             <form action="{{ route('seller.orders') }}" method="GET" class="flex flex-col sm:flex-row flex-grow gap-4">
                 <input type="text" name="search" placeholder="Search Order # or Customer..." 
@@ -54,13 +54,12 @@
             </form>
         </div>
 
-        {{-- Orders Table --}}
+        {{-- Order Management Table --}}
         <div class="bg-white rounded-[2.5rem] shadow-sm border border-gray-50 overflow-hidden">
             <div class="overflow-x-auto custom-scrollbar">
                 <table class="w-full text-left">
                     <thead>
                         <tr class="bg-gray-50/50 text-gray-400 text-[10px] uppercase tracking-[0.2em]">
-                            {{-- Increased inner padding for headers --}}
                             <th class="px-12 py-7 font-bold">Order ID</th>
                             <th class="px-12 py-7 font-bold">Customer Info</th>
                             <th class="px-12 py-7 font-bold text-center">Items</th>
@@ -72,7 +71,6 @@
                     <tbody class="divide-y divide-gray-50">
                         @forelse($orders as $order)
                         <tr class="hover:bg-[#F9F7F2]/30 transition-colors group">
-                            {{-- Increased cell padding and height --}}
                             <td class="px-12 py-8 font-bold text-gray-900 min-w-[140px]">#{{ $order->id }}</td>
                             
                             <td class="px-12 py-8">
@@ -131,6 +129,7 @@
                             </td>
                         </tr>
                         @empty
+                        {{-- Empty Table State --}}
                         <tr>
                             <td colspan="6" class="px-12 py-32 text-center">
                                 <div class="flex flex-col items-center">
@@ -150,6 +149,7 @@
         </div>
     </div>
 
+    {{-- Footer Component --}}
     <div class="mt-12">
         <x-seller-footer />
     </div>

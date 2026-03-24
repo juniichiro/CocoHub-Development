@@ -16,7 +16,8 @@
      }">
     
     <div class="flex-grow">
-        {{-- Header Section --}}
+
+        {{-- Section Header --}}
         <div class="flex flex-col sm:flex-row justify-between items-center mb-10 gap-6 text-center sm:text-left">
             <div>
                 <p class="text-[#738D56] text-xs font-bold uppercase tracking-widest mb-1">Seller Inventory</p>
@@ -33,14 +34,14 @@
             </div>
         </div>
 
-        {{-- Alerts --}}
+        {{-- Status Notifications --}}
         @if(session('status') === 'product-added' || session('status') === 'product-updated')
             <div class="mb-6 p-4 bg-green-50 border border-green-100 text-[#738D56] text-sm rounded-2xl animate-fade-in">
                 {{ session('status') === 'product-added' ? 'New product has been successfully added.' : 'Product details updated successfully.' }}
             </div>
         @endif
 
-        {{-- Stats Grid --}}
+        {{-- Inventory Stats --}}
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
             @php
                 $total = $products->count();
@@ -64,7 +65,7 @@
             @endforeach
         </div>
 
-        {{-- Management Header --}}
+        {{-- Inventory Management Controls --}}
         <div class="flex flex-col sm:flex-row justify-between items-center mb-6 gap-4 text-center sm:text-left">
             <h2 class="text-2xl font-bold text-gray-900">Inventory Management</h2>
             <button @click="openAddModal = true; photoPreview = null" class="w-full sm:w-auto px-8 py-3 bg-[#738D56] text-white font-bold rounded-xl shadow-lg shadow-[#738D56]/20 hover:bg-[#5f7547] transition transform active:scale-95">
@@ -72,7 +73,7 @@
             </button>
         </div>
 
-        {{-- Table Container --}}
+        {{-- Inventory Data Table --}}
         <div class="bg-white rounded-[2.5rem] p-6 sm:p-10 border border-gray-50 shadow-sm">
             <div class="overflow-x-auto custom-scrollbar">
                 <table class="w-full text-left border-separate border-spacing-y-4">
@@ -147,11 +148,12 @@
         </div>
     </div>
 
+    {{-- Footer Component --}}
     <div class="mt-12">
         <x-seller-footer />
     </div>
 
-    {{-- Add Modal --}}
+    {{-- Product Addition Modal --}}
     <div x-show="openAddModal" class="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6" x-cloak>
         <div class="fixed inset-0 bg-black/40 backdrop-blur-md" @click="openAddModal = false"></div>
         <div class="relative bg-white rounded-[2.5rem] p-8 sm:p-10 max-w-xl w-full mx-auto shadow-2xl border border-gray-100 overflow-y-auto max-h-[90vh]">
@@ -217,7 +219,7 @@
         </div>
     </div>
 
-    {{-- Edit Modal --}}
+    {{-- Product Edit Modal --}}
     <div x-show="openEditModal" class="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6" x-cloak>
         <div class="fixed inset-0 bg-black/40 backdrop-blur-md" @click="openEditModal = false"></div>
         <div class="relative bg-white rounded-[2.5rem] p-8 sm:p-10 max-w-xl w-full mx-auto shadow-2xl border border-gray-100 overflow-y-auto max-h-[90vh]">
@@ -282,6 +284,7 @@
         </div>
     </div>
 
+    {{-- Confirmation Component --}}
     <x-delete-modal id="openDeleteModal" action="deleteUrl" />
 </div>
 @endsection

@@ -3,10 +3,11 @@
 @section('title', 'Sales Report')
 
 @section('content')
-{{-- Initialize Alpine Component with PHP data --}}
+
 <div class="flex flex-col min-h-screen" x-data="salesCharts(@js($hourlySales), @js($monthlySales))">
     <div class="flex-grow">
-        {{-- Header Section --}}
+
+        {{-- Section Header --}}
         <div class="flex flex-col sm:flex-row justify-between items-center mb-10 gap-6 text-center sm:text-left">
             <div>
                 <p class="text-[#738D56] text-xs font-bold uppercase tracking-widest mb-1">Seller Performance</p>
@@ -19,7 +20,7 @@
             </div>
         </div>
 
-        {{-- Stats Grid --}}
+        {{-- Performance Stats --}}
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
             <div class="bg-white p-8 rounded-[2rem] border border-gray-50 shadow-sm">
                 <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-4">Sales Today</p>
@@ -46,14 +47,16 @@
             </div>
         </div>
 
-        {{-- Analysis Header --}}
+        {{-- Revenue Header --}}
         <div class="flex flex-col sm:flex-row justify-between items-center mb-6 gap-4 text-center sm:text-left">
             <h2 class="text-2xl font-bold text-gray-900">Revenue Analysis</h2>
             <a href="{{ route('seller.inventory') }}" class="px-8 py-3 bg-[#738D56] text-white font-bold rounded-xl shadow-lg shadow-[#738D56]/20 hover:bg-[#5f7547] transition-all">Manage Inventory</a>
         </div>
 
-        {{-- Charts Grid --}}
+        {{-- Sales Graph --}}
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
+
+            {{-- Daily Distribution Chart --}}
             <div class="bg-white rounded-[2.5rem] p-8 sm:p-10 border border-gray-50 shadow-sm flex flex-col">
                 <div class="mb-8">
                     <h3 class="font-bold text-gray-800 italic">Sold Today</h3>
@@ -68,6 +71,7 @@
                 </div>
             </div>
 
+            {{-- Monthly Growth Chart --}}
             <div class="bg-white rounded-[2.5rem] p-8 sm:p-10 border border-gray-50 shadow-sm flex flex-col">
                 <div class="mb-8">
                     <h3 class="font-bold text-gray-800 italic">Monthly Performance</h3>
@@ -84,6 +88,7 @@
         </div>
     </div>
 
+    {{-- Footer Component --}}
     <div class="mt-4">
         <x-seller-footer />
     </div>

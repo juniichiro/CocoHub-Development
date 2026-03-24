@@ -10,7 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
-use Illuminate\Support\Str; // Added for slug generation
+use Illuminate\Support\Str;
 
 class InventoryController extends Controller
 {

@@ -16,12 +16,13 @@
 
     <main class="flex-grow max-w-7xl mx-auto px-6 sm:px-12 lg:px-20 py-8 lg:py-12 w-full">
         
+        {{-- Profile Header --}}
         <header class="mb-10 text-center sm:text-left">
             <span class="text-[#738D56] text-[10px] sm:text-xs font-bold uppercase tracking-[0.2em] bg-[#738D56]/10 px-3 py-1 rounded-full">Your Account</span>
             <h1 class="text-3xl sm:text-4xl font-bold text-gray-900 mt-4">Manage Profile</h1>
         </header>
 
-        {{-- Success Messages --}}
+        {{-- Success Notifications --}}
         @if(session('status') === 'profile-updated' || session('status') === 'password-updated')
             <div class="mb-8 p-4 bg-[#738D56] text-white text-sm font-bold rounded-2xl shadow-lg shadow-[#738D56]/10 animate-fade-in flex items-center gap-3">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
@@ -35,6 +36,7 @@
             
             {{-- Profile Sidebar --}}
             <div class="w-full lg:w-[45%] bg-white rounded-[2.5rem] p-8 sm:p-10 shadow-sm border border-gray-50 flex flex-col items-center">
+                {{-- Avatar Upload Section --}}
                 <div class="relative mb-10 group">
                     <div class="w-40 h-40 rounded-full border-4 border-[#738D56]/20 overflow-hidden shadow-xl bg-gray-50">
                         <template x-if="photoPreview">
@@ -54,6 +56,7 @@
                     </button>
                 </div>
 
+                {{-- Account Metadata Display --}}
                 <div class="w-full space-y-3">
                     <div class="bg-[#F9F7F2]/60 p-5 rounded-2xl border border-gray-100 flex justify-between items-center">
                         <span class="font-black text-gray-400 uppercase tracking-widest text-[9px]">Full Name</span>
@@ -94,9 +97,9 @@
                 </div>
             </div>
 
-            {{-- Form Section --}}
+            {{-- Profile Update Section --}}
             <div class="w-full lg:w-[55%] space-y-8">
-                {{-- Edit Info Card --}}
+                {{-- Information Edit Form --}}
                 <div class="bg-white rounded-[2.5rem] p-8 sm:p-10 shadow-sm border border-gray-50">
                     <h2 class="text-xl font-bold text-[#6D4C41] mb-8">Personal Information</h2>
                     
@@ -151,7 +154,7 @@
                     </form>
                 </div>
 
-                {{-- Security Card --}}
+                {{-- Password Security Form --}}
                 <div class="bg-white rounded-[2.5rem] p-8 sm:p-10 shadow-sm border border-gray-50"
                      x-data="{ 
                         password: '', 
@@ -218,6 +221,7 @@
 
     <x-buyer-footer />
 
+    {{-- Account Deletion Modal --}}
     <x-delete-modal 
         id="openDeleteModal" 
         action="deleteUrl" 

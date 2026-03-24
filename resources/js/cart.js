@@ -38,8 +38,6 @@ document.addEventListener('alpine:init', () => {
         },
 
         updateQty(itemId, action) {
-            // In a real app, you might use fetch here. 
-            // For now, we follow your existing form submission logic.
             const form = document.getElementById('cart-form');
             if (form) form.submit();
         }

@@ -31,25 +31,16 @@ class User extends Authenticatable
         ];
     }
 
-    /**
-     * Get the user's role.
-     */
     public function role(): BelongsTo
     {
         return $this->belongsTo(Role::class);
     }
 
-    /**
-     * Get the user's cart.
-     */
     public function cart(): HasOne
     {
         return $this->hasOne(Cart::class);
     }
 
-    /**
-     * Get all items in the user's cart through the Cart model.
-     */
     public function cartItems(): HasManyThrough
     {
         return $this->hasManyThrough(CartItem::class, Cart::class);

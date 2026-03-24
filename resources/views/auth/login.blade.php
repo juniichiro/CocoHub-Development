@@ -5,20 +5,13 @@
 @section('content')
 <div class="h-screen w-full bg-[#F9F7F2] flex flex-col overflow-hidden" x-data="{ showPassword: false }">
     
-    <header class="w-full py-4 px-8 lg:px-20 bg-white border-b border-gray-100 flex items-center justify-between shrink-0">
-        <div class="flex items-center gap-3">
-            <img src="{{ asset('images/coco-hub.png') }}" alt="CocoHub Logo" class="h-10 w-10 object-contain">
-            <div class="flex flex-col">
-                <h1 class="text-xl font-extrabold leading-none tracking-tight">
-                    <span class="text-[#6D4C41]">Coco</span><span class="text-[#738D56]">Hub</span>
-                </h1>
-                <span class="text-[10px] text-gray-400 uppercase tracking-tighter">Lumiere</span>
-            </div>
-        </div>
-    </header>
+    {{-- Logo Component --}}
+    <x-logo />
 
+    {{-- Content Layout --}}
     <main class="flex-grow flex flex-col lg:flex-row items-center justify-center p-6 lg:p-20 gap-8 lg:gap-16 overflow-y-auto">
         
+        {{-- Branding Section --}}
         <div class="hidden lg:flex w-1/2 flex-col space-y-6 max-w-2xl">
             <div>
                 <span class="px-4 py-1.5 border border-gray-200 rounded-full text-[10px] tracking-widest text-gray-500 font-semibold uppercase bg-white/50">
@@ -54,6 +47,7 @@
             </div>
         </div>
 
+        {{-- Authentication Card --}}
         <div class="w-full max-w-md lg:w-[450px] shrink-0">
             <div class="bg-white p-8 lg:p-10 rounded-[2.5rem] shadow-2xl shadow-gray-200/60 border border-gray-50">
                 <h2 class="text-4xl font-bold text-[#6D4C41] text-center mb-8">Login</h2>

@@ -4,21 +4,13 @@
 
 @section('content')
 <div class="h-screen w-full bg-[#F9F7F2] flex flex-col overflow-hidden">
-    
-    <header class="w-full py-4 px-8 lg:px-20 bg-white border-b border-gray-100 flex items-center shrink-0">
-        <div class="flex items-center gap-3">
-            <img src="{{ asset('images/coco-hub.png') }}" alt="CocoHub Logo" class="h-10 w-10 object-contain">
-            <div class="flex flex-col">
-                <h1 class="text-xl font-extrabold leading-none tracking-tight">
-                    <span class="text-[#6D4C41]">Coco</span><span class="text-[#738D56]">Hub</span>
-                </h1>
-                <span class="text-[10px] text-gray-400 uppercase tracking-tighter">Lumiere</span>
-            </div>
-        </div>
-    </header>
+
+    {{-- Logo Component --}}
+    <x-logo />
 
     <main class="flex-grow flex flex-col lg:flex-row items-center justify-center p-6 lg:p-20 gap-8 lg:gap-16 overflow-y-auto">
-        
+
+        {{-- Branding Section --}}
         <div class="hidden lg:flex w-1/2 flex-col space-y-6 max-w-2xl">
             <div>
                 <span class="px-4 py-1.5 border border-gray-200 rounded-full text-[10px] tracking-widest text-gray-500 font-semibold uppercase bg-white/50">
@@ -39,6 +31,7 @@
             </div>
         </div>
 
+        {{-- Authentication Card --}}
         <div class="w-full max-w-md lg:w-[450px] shrink-0">
             <div class="bg-white p-8 lg:p-10 rounded-[2.5rem] shadow-2xl shadow-gray-200/60 border border-gray-50">
                 <h2 class="text-3xl font-bold text-[#6D4C41] text-center mb-4">Password Reset</h2>
@@ -48,8 +41,8 @@
                 </p>
 
                 @if (session('status'))
-                    <div class="mb-6 p-4 bg-green-50 border border-green-100 rounded-2xl">
-                        <p class="text-green-600 text-xs font-bold text-center">
+                    <div class="mb-6 p-4 bg-green-50 border border-green-100 rounded-2xl animate-fade-in">
+                        <p class="text-[#738D56] text-xs font-bold text-center">
                             {{ session('status') }}
                         </p>
                     </div>
@@ -59,13 +52,13 @@
                     @csrf
 
                     <div>
-                        <label for="email" class="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2 ml-1">Email Address</label>
+                        <label for="email" class="block text-[12px] font-bold text-gray-400 uppercase tracking-widest mb-3 ml-1">Email Address</label>
                         <input id="email" type="email" name="email" value="{{ old('email') }}" required autofocus 
-                            placeholder="Email"
-                            class="w-full px-5 py-4 bg-[#F3F4F6] border-none rounded-2xl focus:ring-2 focus:ring-[#738D56] text-gray-700 placeholder-gray-400 transition-all text-sm" />
+                            placeholder="your@email.com"
+                            class="w-full px-6 py-4 bg-[#F9F7F2]/60 border-none rounded-2xl focus:ring-2 focus:ring-[#738D56]/20 text-gray-700 placeholder-gray-300 transition-all text-sm font-medium" />
                         
                         @error('email')
-                            <p class="text-red-500 text-[10px] mt-2 ml-1 font-bold italic">{{ $message }}</p>
+                            <p class="text-red-500 text-[10px] mt-2 ml-1 font-bold italic tracking-tight">{{ $message }}</p>
                         @enderror
                     </div>
 

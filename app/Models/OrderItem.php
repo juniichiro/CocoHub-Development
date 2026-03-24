@@ -18,17 +18,11 @@ class OrderItem extends Model
         'price',
     ];
 
-    /**
-     * Get the parent order.
-     */
     public function order()
     {
         return $this->belongsTo(Order::class);
     }
 
-    /**
-     * Get the product details for this item.
-     */
     public function product()
     {
         return $this->belongsTo(Product::class);

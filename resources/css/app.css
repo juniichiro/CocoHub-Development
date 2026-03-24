@@ -7,12 +7,10 @@
         scroll-behavior: smooth;
     }
 
-    /* Prevent layout shift before Alpine.js initializes */
     [x-cloak] {
         display: none !important;
     }
 
-    /* Standardize text antialiasing for cleaner fonts */
     body {
         @apply antialiased text-gray-800;
         background-color: #F9F7F2;
@@ -20,7 +18,7 @@
 }
 
 @layer components {
-    /* --- Custom Animations --- */
+
     .animate-fade-in-up {
         animation: fade-in-up 0.8s ease-out forwards;
     }
@@ -29,7 +27,6 @@
         animation: fadeIn 0.4s ease-out forwards;
     }
 
-    /* --- Star Rating System --- */
     .star-rating input[type="radio"]:checked ~ label {
         @apply text-yellow-400;
     }
@@ -41,7 +38,7 @@
 }
 
 @layer utilities {
-    /* --- Keyframes --- */
+
     @keyframes fade-in-up {
         from {
             opacity: 0;
@@ -64,7 +61,6 @@
         }
     }
 
-    /* --- Custom Minimalist Scrollbar --- */
     .custom-scrollbar::-webkit-scrollbar {
         width: 4px;
         height: 4px;

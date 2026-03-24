@@ -3,10 +3,12 @@
 @section('title', 'Order History')
 
 @section('content')
-{{-- Wrap everything in an Alpine data component to manage modal state --}}
+
 <div x-data="{ ratingModalOpen: false, activeOrderId: null }" class="min-h-screen bg-[#F9F7F2] flex flex-col">
+
     @include('layouts.navigation')
 
+    {{-- History Header Section --}}
     <main class="flex-grow max-w-7xl mx-auto px-6 sm:px-12 lg:px-20 py-8 lg:py-12 w-full">
         <header class="mb-10 flex flex-col md:flex-row md:items-end justify-between gap-6 text-center md:text-left">
             <div>
@@ -14,6 +16,7 @@
                 <h1 class="text-3xl sm:text-4xl font-bold text-gray-900 mt-3 leading-tight">History<br class="hidden md:block"> Transactions</h1>
             </div>
             
+            {{-- Status Filter --}}
             <div class="w-full md:w-auto">
                 <select 
                     onchange="window.location.href = '{{ route('buyer.history') }}' + (this.value ? '?status=' + encodeURIComponent(this.value) : '')"
@@ -28,6 +31,7 @@
             </div>
         </header>
 
+        {{-- Feedback Notifications --}}
         @if(session('status'))
             <div class="mb-8 p-4 bg-[#738D56] text-white text-sm font-bold rounded-2xl shadow-lg shadow-[#738D56]/20 animate-fade-in">
                 {{ session('status') }}
@@ -40,10 +44,14 @@
             </div>
         @endif
 
+        {{-- Order Transactions --}}
         <div class="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-10">
             @forelse($orders as $order)
+
+                {{-- Individual Order Card --}}
                 <div class="bg-white rounded-[2.5rem] p-6 sm:p-8 shadow-sm border border-gray-50 flex flex-col gap-6 relative group hover:shadow-md transition-all duration-300">
                     
+                    {{-- Card Header --}}
                     <div class="flex justify-between items-start border-b border-gray-50 pb-4">
                         <div>
                             <p class="text-[10px] text-gray-400 font-black uppercase tracking-widest">Order Reference</p>
@@ -59,6 +67,7 @@
                         </span>
                     </div>
 
+                    {{-- Itemized Products --}}
                     <div class="space-y-4 flex-grow">
                         @foreach($order->items as $item)
                         <div class="flex items-center gap-4 bg-[#F9F7F2]/40 p-3 rounded-2xl border border-gray-50/50">
@@ -76,6 +85,7 @@
                         @endforeach
                     </div>
 
+                    {{-- Card Footer --}}
                     <div class="pt-6 border-t border-gray-50 mt-auto flex justify-between items-end gap-4">
                         <div class="space-y-1">
                             <p class="text-[10px] text-gray-400 font-black uppercase tracking-widest">Transaction Date</p>
@@ -86,6 +96,7 @@
                             </div>
                         </div>
 
+                        {{-- Order Context Actions --}}
                         <div class="flex flex-col gap-3 w-1/2">
                             @if($order->status == 'Awaiting Shipping')
                                 <form action="{{ route('buyer.order.cancel', $order->id) }}" method="POST" onsubmit="return confirm('Cancel this order?')">
@@ -115,7 +126,7 @@
                                 @endif
                             @endif
 
-                            {{-- High Contrast Action Buttons --}}
+                            {{-- Action Links --}}
                             <div class="grid grid-cols-2 gap-3">
                                 @if($order->items->first())
                                 <form action="{{ route('buyer.cart.add', $order->items->first()->product_id) }}" method="POST">
@@ -134,6 +145,8 @@
                     </div>
                 </div>
             @empty
+
+                {{-- No Results State --}}
                 <div class="col-span-full py-32 text-center flex flex-col items-center justify-center">
                     <div class="w-20 h-20 bg-white rounded-[2rem] shadow-sm flex items-center justify-center mb-6 text-gray-200">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -151,7 +164,7 @@
 
     <x-buyer-footer />
 
-    {{-- MODAL POWERED BY ALPINE --}}
+    {{-- Rating Modal --}}
     <div 
         x-show="ratingModalOpen" 
         x-cloak 
@@ -165,6 +178,7 @@
             x-transition:enter-end="opacity-100 scale-100"
             class="bg-white rounded-[3rem] w-full max-w-lg p-10 shadow-2xl relative"
         >
+            {{-- Modal Header --}}
             <div class="flex justify-between items-start mb-8">
                 <div>
                     <h2 class="text-2xl font-black text-gray-900 tracking-tight">Rate Products</h2>
@@ -177,10 +191,12 @@
                 </button>
             </div>
 
+            {{-- Review Form --}}
             <form action="{{ route('buyer.reviews.store') }}" method="POST" class="space-y-8"> 
                 @csrf
                 <input type="hidden" name="order_id" :value="activeOrderId">
                 
+                {{-- Star Selection --}}
                 <div class="text-center space-y-4">
                     <p class="text-[10px] font-black text-gray-400 uppercase tracking-[0.2em]">Your Overall Rating</p>
                     <div class="flex flex-row-reverse justify-center gap-2 text-4xl star-rating">
@@ -191,12 +207,14 @@
                     </div>
                 </div>
 
+                {{-- Feedback Input --}}
                 <div class="space-y-3">
                     <label class="block text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">Write a Review</label>
                     <textarea name="comment" rows="4" placeholder="How was your coconut product experience?" 
                         class="w-full px-6 py-4 bg-[#F9F7F2]/60 border-none rounded-[2rem] focus:ring-2 focus:ring-[#738D56] text-sm transition-all outline-none resize-none placeholder-gray-300 font-medium text-gray-700"></textarea>
                 </div>
 
+                {{-- Form Submission --}}
                 <button type="submit" class="w-full py-5 bg-[#738D56] text-white font-black uppercase tracking-widest text-[11px] rounded-2xl shadow-xl shadow-[#738D56]/20 transform active:scale-95 transition-all">
                     Submit Feedback
                 </button>

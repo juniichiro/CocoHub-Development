@@ -5,7 +5,7 @@
 @section('content')
 <div class="flex flex-col min-h-screen">
     <div class="flex-grow">
-        {{-- Header Section --}}
+        {{-- Section Header --}}
         <div class="flex flex-col sm:flex-row justify-between items-center mb-10 gap-4 text-center sm:text-left">
             <div>
                 <p class="text-[#738D56] text-xs font-bold uppercase tracking-widest mb-1">Seller Dashboard</p>
@@ -56,7 +56,7 @@
             </div>
         </div>
 
-        {{-- Stats Grid --}}
+        {{-- Performance Metrics Grid --}}
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
             <div class="bg-white p-8 rounded-[2rem] border border-gray-50 shadow-sm hover:shadow-md transition-shadow">
                 <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-4">Sales Today</p>
@@ -85,9 +85,9 @@
             </div>
         </div>
 
-        {{-- Bottom Grid --}}
+        {{-- Inventory and Activity Layout --}}
         <div class="grid grid-cols-1 xl:grid-cols-5 gap-8">
-            {{-- Inventory Table --}}
+            {{-- Inventory Overview Table --}}
             <div class="xl:col-span-3 bg-white rounded-[2.5rem] p-8 border border-gray-50 shadow-sm overflow-hidden">
                 <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4">
                     <div>
@@ -133,7 +133,7 @@
                 </div>
             </div>
 
-            {{-- Recent Orders Sidebar --}}
+            {{-- Recent Activity Sidebar --}}
             <div class="xl:col-span-2 space-y-4">
                 <h3 class="font-bold text-gray-800 text-lg ml-2">Recent Orders</h3>
                 @foreach($recentOrders as $order)
@@ -155,6 +155,7 @@
         </div>
     </div>
 
+    {{-- Footer Component --}}
     <div class="mt-12">
         <x-seller-footer />
     </div>

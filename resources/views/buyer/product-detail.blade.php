@@ -7,12 +7,14 @@
     @include('layouts.navigation')
 
     <main class="flex-grow max-w-7xl mx-auto px-6 sm:px-12 lg:px-20 py-8 lg:py-12 w-full">
+        {{-- Back Button --}}
         <div class="mb-8">
             <a href="{{ route('buyer.product') }}" class="text-gray-400 font-bold text-[10px] sm:text-xs uppercase tracking-widest hover:text-[#738D56] transition inline-flex items-center gap-2">
                 <span>&lt;</span> Back to Products
             </a>
         </div>
 
+        {{-- Cart Status Notification --}}
         @if(session('status') === 'added-to-cart')
             <div class="mb-8 p-4 bg-[#738D56] text-white text-sm font-bold rounded-2xl shadow-lg shadow-[#738D56]/20 animate-fade-in flex justify-between items-center">
                 <span>Success! Item added to your cart.</span>
@@ -20,16 +22,20 @@
             </div>
         @endif
 
+        {{-- Product Display Grid --}}
         <div class="flex flex-col lg:flex-row gap-10 lg:gap-16 items-center lg:items-start">
-            {{-- Image Container: Scaled for tablet/mobile --}}
+            
+            {{-- Image Showcase Container --}}
             <div class="w-full lg:w-1/2 aspect-square bg-white rounded-[2.5rem] sm:rounded-[3.5rem] p-8 sm:p-12 shadow-sm border border-gray-50 flex items-center justify-center relative overflow-hidden">
                 <img src="{{ asset('images/products/' . ($product->image ?? 'placeholder.png')) }}" 
                      alt="{{ $product->name }}" 
                      class="max-w-full max-h-full object-contain hover:scale-105 transition-transform duration-700">
             </div>
 
-            {{-- Product Info Container --}}
+            {{-- Product Details Column --}}
             <div class="w-full lg:w-1/2 space-y-6 sm:space-y-8">
+                
+                {{-- Header Metadata --}}
                 <div class="text-center lg:text-left">
                     <span class="px-5 py-2 bg-[#738D56]/10 text-[#738D56] text-[10px] font-black uppercase tracking-widest rounded-full border border-[#738D56]/10">
                         {{ $product->category }}
@@ -48,6 +54,7 @@
                     </div>
                 </div>
 
+                {{-- Pricing & Availability --}}
                 <div class="text-center lg:text-left space-y-2">
                     <p class="text-5xl sm:text-6xl font-black text-gray-900">₱{{ number_format($product->price, 2) }}</p>
                     <p class="text-xs font-bold {{ $product->stock > 0 ? 'text-[#738D56]' : 'text-red-500' }} uppercase tracking-widest">
@@ -55,13 +62,16 @@
                     </p>
                 </div>
 
+                {{-- Description --}}
                 <div class="prose prose-sm text-gray-500 leading-relaxed text-center lg:text-left">
                     <p class="text-base sm:text-lg leading-relaxed">{{ $product->description }}</p>
                 </div>
 
+                {{-- Purchase Configuration Form --}}
                 <form action="{{ route('buyer.cart.add', $product->id) }}" method="POST" class="space-y-6">
                     @csrf
                     
+                    {{-- Quantity Selector --}}
                     @if($product->stock > 0)
                     <div class="flex flex-col items-center lg:items-start space-y-3">
                         <label class="block text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">Select Quantity</label>
@@ -74,21 +84,17 @@
                     </div>
                     @endif
 
+                    {{-- Form Actions --}}
                     <div class="flex flex-col sm:flex-row gap-4">
                         <button type="submit" 
                             {{ $product->stock <= 0 ? 'disabled' : '' }}
                             class="flex-grow py-5 bg-[#738D56] hover:bg-[#5f7547] text-white font-black uppercase tracking-widest text-[11px] rounded-2xl shadow-xl shadow-[#738D56]/20 transition-all transform active:scale-95 disabled:bg-gray-200 disabled:shadow-none">
                             {{ $product->stock > 0 ? 'Add to Cart' : 'Currently Unavailable' }}
                         </button>
-                        <button type="button" class="p-5 border-2 border-gray-100 rounded-2xl hover:bg-gray-50 transition text-gray-300 hover:text-red-400 flex justify-center">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
-                            </svg>
-                        </button>
                     </div>
                 </form>
 
-                {{-- Feature Badges --}}
+                {{-- Badges --}}
                 <div class="pt-8 border-t border-gray-100 grid grid-cols-2 gap-4">
                     <div class="flex items-center gap-3">
                         <div class="w-8 h-8 rounded-full bg-emerald-50 flex items-center justify-center text-[#738D56]">

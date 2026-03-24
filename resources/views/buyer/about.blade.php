@@ -3,9 +3,11 @@
 @section('title', 'About Us')
 
 @section('content')
+
 <div class="min-h-screen w-full bg-[#F9F7F2] flex flex-col">
     @include('layouts.navigation')
 
+    {{-- Hero Section: Introduction to Coconut Coir --}}
     <main class="max-w-7xl mx-auto px-8 lg:px-20 py-16 animate-fade-in-up">
         <div class="mb-12">
             <span class="text-[#738D56] text-xs font-bold uppercase tracking-widest block mb-2">About us</span>
@@ -13,6 +15,7 @@
         </div>
 
         <div class="flex flex-col lg:flex-row items-stretch gap-12">
+            {{-- Content Card --}}
             <div class="w-full lg:w-1/2 bg-white rounded-[3rem] p-10 lg:p-16 shadow-sm border border-gray-50 flex flex-col justify-center">
                 <h2 class="text-5xl font-bold text-[#6D4C41] mb-8">Coconut Coir</h2>
                 <p class="text-gray-600 text-lg leading-relaxed text-justify font-medium">
@@ -20,6 +23,7 @@
                 </p>
             </div>
 
+            {{-- Feature Image --}}
             <div class="w-full lg:w-1/2">
                 <div class="h-full min-h-[450px] rounded-[3rem] overflow-hidden shadow-2xl border-8 border-white">
                     <img src="{{ asset('images/about.png') }}" alt="Sustainability" class="w-full h-full object-cover transform hover:scale-105 transition-transform duration-700">
@@ -28,9 +32,11 @@
         </div>
     </main>
 
+    {{-- Team Section --}}
     <section class="max-w-7xl mx-auto px-8 lg:px-20 py-24 border-t border-gray-100">
         <div class="flex flex-col lg:flex-row items-center gap-16">
             
+            {{-- Team Group Photo --}}
             <div class="w-full lg:w-1/2 shrink-0">
                 <div class="relative group">
                     <div class="absolute -bottom-4 -left-4 w-full h-full border-2 border-[#738D56]/20 rounded-[3rem] -z-10 transition-transform group-hover:-translate-x-2 group-hover:translate-y-2"></div>
@@ -40,6 +46,7 @@
                 </div>
             </div>
 
+            {{-- Team Member Details --}}
             <div class="w-full lg:w-1/2 space-y-10">
                 <div class="space-y-6">
                     <p class="text-gray-500 text-lg leading-relaxed font-medium text-justify">
@@ -80,6 +87,7 @@
         </div>
     </section>
 
+    {{-- References Section --}}
     <section class="max-w-7xl mx-auto px-8 lg:px-20 py-24">
         <div class="bg-white rounded-[3rem] p-12 lg:p-20 shadow-sm border border-gray-50">
             <div class="mb-10">
@@ -91,6 +99,7 @@
                 </p>
             </div>
 
+            {{-- Links--}}
             <div class="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-6">
                 @php
                     $references = [

@@ -5,26 +5,31 @@
 @section('content')
 <div class="flex flex-col min-h-screen">
     <div class="flex-grow">
-        {{-- Header Section --}}
+        
+        {{-- Section Header --}}
         <header class="mb-10 text-center sm:text-left">
             <p class="text-[#738D56] text-xs font-bold uppercase tracking-widest mb-1">Feedback Management</p>
             <h2 class="text-3xl sm:text-4xl font-bold text-gray-900">Customer Reviews</h2>
         </header>
 
-        {{-- Reviews List --}}
+        {{-- Reviews Feed --}}
         <div class="space-y-6 pb-12">
             @forelse($reviews as $review)
+
+                {{-- Individual Review Card --}}
                 <div class="bg-white rounded-[2.5rem] p-6 sm:p-10 shadow-sm border border-gray-50 flex flex-col md:flex-row items-start gap-8 transition-all hover:shadow-md">
                     
-                    {{-- Product Image --}}
+                    {{-- Product Image Thumbnail --}}
                     <div class="w-24 h-24 rounded-3xl overflow-hidden shrink-0 border border-gray-100 bg-[#F9F7F2] shadow-sm">
                         <img src="{{ asset('images/products/' . ($review->product->image ?? 'placeholder.png')) }}" 
                              alt="{{ $review->product?->name ?? 'Product' }}" 
                              class="w-full h-full object-cover">
                     </div>
 
-                    {{-- Review Content --}}
+                    {{-- Feedback Content Container --}}
                     <div class="flex-grow w-full">
+
+                        {{-- Review Data Header --}}
                         <div class="flex flex-col lg:flex-row lg:items-start justify-between gap-4 mb-4">
                             <div class="flex flex-col">
                                 <div class="flex items-center gap-3 flex-wrap">
@@ -43,7 +48,7 @@
                                 </div>
                             </div>
                             
-                            {{-- Star Rating --}}
+                            {{-- Star Rating Display --}}
                             <div class="flex gap-0.5 bg-[#F9F7F2] px-3 py-1.5 rounded-full border border-gray-50 self-start">
                                 @for($i = 1; $i <= 5; $i++)
                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 {{ $i <= $review->rating ? 'text-yellow-400' : 'text-gray-200' }}" viewBox="0 0 20 20" fill="currentColor">
@@ -53,7 +58,7 @@
                             </div>
                         </div>
 
-                        {{-- Comment Box --}}
+                        {{-- Reviewer Comment --}}
                         <div class="mt-2">
                             <div class="bg-[#F9F7F2]/50 px-6 py-4 rounded-[2rem] border border-[#738D56]/5 relative">
                                 <span class="absolute top-2 left-4 text-3xl text-[#738D56]/10 font-serif leading-none select-none">“</span>
@@ -75,12 +80,14 @@
                 </div>
             @endforelse
 
+            {{-- Pagination Links --}}
             <div class="mt-8">
                 {{ $reviews->links() }}
             </div>
         </div>
     </div>
 
+    {{-- Footer Component --}}
     <div class="mt-auto pt-6 border-t border-gray-100">
         <x-seller-footer />
     </div>

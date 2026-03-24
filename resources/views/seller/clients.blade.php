@@ -12,12 +12,13 @@
      }">
     
     <div class="flex-grow">
+        {{-- Section Header --}}
         <header class="mb-10 text-center sm:text-left">
             <p class="text-[#738D56] text-xs font-bold uppercase tracking-widest mb-1">Your Network</p>
             <h2 class="text-3xl sm:text-4xl font-bold text-gray-900">Manage Accounts</h2>
         </header>
 
-        {{-- Status Messages --}}
+        {{-- Status Notifications --}}
         @if(session('status') === 'account-deleted' || session('success'))
             <div class="mb-8 p-4 bg-green-50 border border-green-100 text-[#738D56] text-sm font-bold rounded-2xl animate-fade-in flex items-center gap-3">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
@@ -27,6 +28,7 @@
             </div>
         @endif
 
+        {{-- Account Management Card --}}
         <div class="bg-white rounded-[2.5rem] p-8 sm:p-10 shadow-sm border border-gray-50">
             <div class="mb-10 text-center sm:text-left">
                 <h3 class="text-lg font-medium text-gray-400">Manage user accounts and platform permissions</h3>
@@ -54,11 +56,11 @@
                 </div>
             </form>
 
+            {{-- Client Data Table --}}
             <div class="overflow-x-auto custom-scrollbar">
                 <table class="w-full text-left">
                     <thead>
                         <tr class="text-[10px] text-gray-400 uppercase tracking-[0.2em] border-b border-gray-50">
-                            {{-- Increased inner padding for the table headers --}}
                             <th class="px-12 pb-6 font-bold">Client Name</th>
                             <th class="px-12 pb-6 font-bold">Email</th>
                             <th class="px-12 pb-6 font-bold">Phone</th>
@@ -69,7 +71,6 @@
                     <tbody class="text-sm divide-y divide-gray-50">
                         @forelse($clients as $client)
                         <tr class="hover:bg-[#F9F7F2]/30 transition-colors group">
-                            {{-- Increased cell padding for better margins --}}
                             <td class="px-12 py-8 font-bold text-gray-800 min-w-[200px]">
                                 {{ $client->buyerDetail->first_name ?? 'N/A' }} 
                                 {{ $client->buyerDetail->last_name ?? '' }}
@@ -115,6 +116,7 @@
                 </table>
             </div>
 
+            {{-- Table Footer Summary --}}
             <div class="mt-8 flex justify-between items-center border-t border-gray-50 pt-6">
                 <p class="text-[10px] font-bold text-gray-300 uppercase tracking-widest">
                     Records Found: {{ $clients->count() }}
@@ -123,10 +125,12 @@
         </div>
     </div>
 
+    {{-- Footer Component --}}
     <div class="mt-12">
         <x-seller-footer />
     </div>
 
+    {{-- Delete Modal --}}
     <x-delete-modal id="openDeleteModal" action="deleteUrl" />
 </div>
 @endsection

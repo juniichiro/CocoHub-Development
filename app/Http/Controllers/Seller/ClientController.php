@@ -16,9 +16,7 @@ class ClientController extends Controller
         if ($request->filled('search')) {
             $search = $request->search;
             $query->where(function($q) use ($search) {
-                // Search in Users table
                 $q->where('email', 'LIKE', "%$search%")
-                  // Search in related BuyerDetail table
                   ->orWhereHas('buyerDetail', function($sq) use ($search) {
                       $sq->where('first_name', 'LIKE', "%$search%")
                         ->orWhere('last_name', 'LIKE', "%$search%")

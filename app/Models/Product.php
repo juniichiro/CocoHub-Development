@@ -14,8 +14,8 @@ class Product extends Model
             'category',
             'description',
             'price',
-            'rating',        // Added for buyer feedback
-            'review_count',  // Added for buyer feedback
+            'rating',       
+            'review_count',  
             'stock',
             'image',
     ];

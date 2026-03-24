@@ -6,7 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class SellerDetail extends Model
 {
-    // Disable timestamps if you didn't add them to the migration
     public $timestamps = false;
 
     protected $fillable = [

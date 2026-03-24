@@ -7,8 +7,7 @@ use App\Models\Product;
 use App\Models\StorefrontSetting;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\Cache; // Add this
-
+use Illuminate\Support\Facades\Cache;
 class StorefrontController extends Controller
 {
     public function index()
