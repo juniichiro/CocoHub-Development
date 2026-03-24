@@ -63,6 +63,7 @@
                     </a>
                 @endauth
 
+
                 <div class="flex items-center lg:hidden">
                     <button @click="open = ! open" class="inline-flex items-center justify-center p-3 rounded-xl text-gray-400 hover:text-[#738D56] hover:bg-gray-50 focus:outline-none transition duration-150 ease-in-out">
                         <svg class="h-8 w-8 sm:h-9 sm:w-9 lg:h-6 lg:w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">

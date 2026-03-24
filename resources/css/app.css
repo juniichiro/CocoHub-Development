@@ -1,3 +1,86 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+    html {
+        scroll-behavior: smooth;
+    }
+
+    /* Prevent layout shift before Alpine.js initializes */
+    [x-cloak] {
+        display: none !important;
+    }
+
+    /* Standardize text antialiasing for cleaner fonts */
+    body {
+        @apply antialiased text-gray-800;
+        background-color: #F9F7F2;
+    }
+}
+
+@layer components {
+    /* --- Custom Animations --- */
+    .animate-fade-in-up {
+        animation: fade-in-up 0.8s ease-out forwards;
+    }
+
+    .animate-fade-in {
+        animation: fadeIn 0.4s ease-out forwards;
+    }
+
+    /* --- Star Rating System --- */
+    .star-rating input[type="radio"]:checked ~ label {
+        @apply text-yellow-400;
+    }
+
+    .star-rating label:hover ~ label,
+    .star-rating label:hover {
+        @apply text-yellow-300;
+    }
+}
+
+@layer utilities {
+    /* --- Keyframes --- */
+    @keyframes fade-in-up {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(10px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    /* --- Custom Minimalist Scrollbar --- */
+    .custom-scrollbar::-webkit-scrollbar {
+        width: 4px;
+        height: 4px;
+    }
+    
+    .custom-scrollbar::-webkit-scrollbar-track {
+        @apply bg-transparent;
+    }
+    
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+        @apply bg-[#738D56]/20 rounded-full hover:bg-[#738D56]/40 transition-colors;
+    }
+
+    /* Firefox Support for scrollbar */
+    .custom-scrollbar {
+        scrollbar-width: thin;
+        scrollbar-color: rgba(115, 141, 86, 0.2) transparent;
+    }
+}

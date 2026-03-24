@@ -7,17 +7,17 @@
 <div x-data="{ ratingModalOpen: false, activeOrderId: null }" class="min-h-screen bg-[#F9F7F2] flex flex-col">
     @include('layouts.navigation')
 
-    <main class="flex-grow max-w-7xl mx-auto px-8 lg:px-20 py-12 w-full">
-        <header class="mb-10 flex flex-col md:flex-row md:items-end justify-between gap-4 text-center md:text-left">
+    <main class="flex-grow max-w-7xl mx-auto px-6 sm:px-12 lg:px-20 py-8 lg:py-12 w-full">
+        <header class="mb-10 flex flex-col md:flex-row md:items-end justify-between gap-6 text-center md:text-left">
             <div>
-                <span class="text-[#738D56] text-xs font-bold uppercase tracking-[0.2em] bg-[#738D56]/10 px-3 py-1 rounded-full">Account Activity</span>
-                <h1 class="text-3xl lg:text-4xl font-bold text-gray-900 mt-3 leading-tight">History<br class="hidden md:block"> Transactions</h1>
+                <span class="text-[#738D56] text-[10px] sm:text-xs font-bold uppercase tracking-[0.2em] bg-[#738D56]/10 px-3 py-1 rounded-full">Account Activity</span>
+                <h1 class="text-3xl sm:text-4xl font-bold text-gray-900 mt-3 leading-tight">History<br class="hidden md:block"> Transactions</h1>
             </div>
             
             <div class="w-full md:w-auto">
                 <select 
                     onchange="window.location.href = '{{ route('buyer.history') }}' + (this.value ? '?status=' + encodeURIComponent(this.value) : '')"
-                    class="w-full md:w-56 bg-white border border-gray-100 rounded-xl px-4 py-3 text-xs font-bold uppercase tracking-widest text-gray-500 shadow-sm focus:ring-[#738D56] focus:border-[#738D56] cursor-pointer">
+                    class="w-full md:w-64 bg-white border border-gray-100 rounded-xl px-5 py-3.5 text-xs font-bold uppercase tracking-widest text-gray-500 shadow-sm focus:ring-2 focus:ring-[#738D56] focus:border-[#738D56] cursor-pointer appearance-none">
                     
                     <option value="" {{ request('status') == '' ? 'selected' : '' }}>All Orders</option>
                     <option value="Awaiting Shipping" {{ request('status') == 'Awaiting Shipping' ? 'selected' : '' }}>Pending (Awaiting Shipping)</option>
@@ -40,9 +40,9 @@
             </div>
         @endif
 
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-10">
             @forelse($orders as $order)
-                <div class="bg-white rounded-[2.5rem] p-8 shadow-sm border border-gray-50 flex flex-col gap-6 relative group hover:shadow-md transition-all duration-300">
+                <div class="bg-white rounded-[2.5rem] p-6 sm:p-8 shadow-sm border border-gray-50 flex flex-col gap-6 relative group hover:shadow-md transition-all duration-300">
                     
                     <div class="flex justify-between items-start border-b border-gray-50 pb-4">
                         <div>
@@ -76,7 +76,7 @@
                         @endforeach
                     </div>
 
-                    <div class="pt-6 border-t border-gray-50 mt-auto flex justify-between items-end">
+                    <div class="pt-6 border-t border-gray-50 mt-auto flex justify-between items-end gap-4">
                         <div class="space-y-1">
                             <p class="text-[10px] text-gray-400 font-black uppercase tracking-widest">Transaction Date</p>
                             <p class="text-xs font-bold text-gray-700">{{ $order->created_at->format('M d, Y') }}</p>
@@ -86,7 +86,7 @@
                             </div>
                         </div>
 
-                        <div class="flex flex-col gap-2 w-1/2">
+                        <div class="flex flex-col gap-3 w-1/2">
                             @if($order->status == 'Awaiting Shipping')
                                 <form action="{{ route('buyer.order.cancel', $order->id) }}" method="POST" onsubmit="return confirm('Cancel this order?')">
                                     @csrf
@@ -103,7 +103,6 @@
                                 </form>
                             @elseif($order->status == 'Completed')
                                 @if(!($order->is_rated ?? false))
-                                    {{-- Trigger Alpine state instead of JS function --}}
                                     <button type="button" 
                                         @click="activeOrderId = {{ $order->id }}; ratingModalOpen = true" 
                                         class="w-full px-6 py-3 bg-amber-400 text-white text-[10px] font-black uppercase tracking-widest rounded-xl hover:bg-amber-500 transition-all shadow-lg shadow-amber-400/20 transform active:scale-95">
@@ -116,17 +115,18 @@
                                 @endif
                             @endif
 
-                            <div class="grid grid-cols-2 gap-2 mt-1">
+                            {{-- High Contrast Action Buttons --}}
+                            <div class="grid grid-cols-2 gap-3">
                                 @if($order->items->first())
                                 <form action="{{ route('buyer.cart.add', $order->items->first()->product_id) }}" method="POST">
                                     @csrf
-                                    <button type="submit" class="w-full py-2.5 bg-white text-gray-500 text-[9px] font-black uppercase tracking-widest rounded-xl border-2 border-gray-100 hover:text-[#738D56] hover:border-[#738D56]/20 transition-all">
+                                    <button type="submit" class="w-full py-2.5 bg-white text-gray-700 text-[9px] font-black uppercase tracking-widest rounded-xl border-2 border-gray-100 hover:text-[#738D56] hover:border-[#738D56]/20 transition-all">
                                         Reorder
                                     </button>
                                 </form>
                                 @endif
                                 <a href="{{ route('buyer.order.receipt', $order->id) }}" 
-                                class="w-full py-2.5 bg-white text-gray-500 text-[9px] font-black uppercase tracking-widest rounded-xl border-2 border-gray-100 hover:bg-gray-50 transition-all text-center flex items-center justify-center">
+                                   class="w-full py-2.5 bg-white text-gray-700 text-[9px] font-black uppercase tracking-widest rounded-xl border-2 border-gray-100 hover:bg-gray-50 transition-all text-center flex items-center justify-center">
                                     Receipt
                                 </a>
                             </div>
@@ -155,12 +155,16 @@
     <div 
         x-show="ratingModalOpen" 
         x-cloak 
-        x-transition:enter="transition ease-out duration-300"
-        x-transition:enter-start="opacity-0 scale-95"
-        x-transition:enter-end="opacity-100 scale-100"
         class="fixed inset-0 z-[9999] bg-black/60 backdrop-blur-sm flex items-center justify-center p-6"
     >
-        <div @click.away="ratingModalOpen = false" class="bg-white rounded-[3rem] w-full max-w-lg p-10 shadow-2xl relative">
+        <div 
+            @click.away="ratingModalOpen = false" 
+            x-show="ratingModalOpen"
+            x-transition:enter="transition ease-out duration-300"
+            x-transition:enter-start="opacity-0 scale-95"
+            x-transition:enter-end="opacity-100 scale-100"
+            class="bg-white rounded-[3rem] w-full max-w-lg p-10 shadow-2xl relative"
+        >
             <div class="flex justify-between items-start mb-8">
                 <div>
                     <h2 class="text-2xl font-black text-gray-900 tracking-tight">Rate Products</h2>
@@ -175,7 +179,6 @@
 
             <form action="{{ route('buyer.reviews.store') }}" method="POST" class="space-y-8"> 
                 @csrf
-                {{-- Dynamic ID input --}}
                 <input type="hidden" name="order_id" :value="activeOrderId">
                 
                 <div class="text-center space-y-4">
@@ -191,7 +194,7 @@
                 <div class="space-y-3">
                     <label class="block text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">Write a Review</label>
                     <textarea name="comment" rows="4" placeholder="How was your coconut product experience?" 
-                        class="w-full px-6 py-4 bg-[#F9F7F2]/60 border-none rounded-[2rem] focus:ring-2 focus:ring-[#738D56] text-sm transition-all outline-none resize-none placeholder-gray-300"></textarea>
+                        class="w-full px-6 py-4 bg-[#F9F7F2]/60 border-none rounded-[2rem] focus:ring-2 focus:ring-[#738D56] text-sm transition-all outline-none resize-none placeholder-gray-300 font-medium text-gray-700"></textarea>
                 </div>
 
                 <button type="submit" class="w-full py-5 bg-[#738D56] text-white font-black uppercase tracking-widest text-[11px] rounded-2xl shadow-xl shadow-[#738D56]/20 transform active:scale-95 transition-all">
@@ -201,12 +204,4 @@
         </div>
     </div>
 </div>
-
-<style>
-    [x-cloak] { display: none !important; }
-    .animate-fade-in { animation: fadeIn 0.3s ease-out forwards; }
-    @keyframes fadeIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
-    .star-rating input[type="radio"]:checked ~ label { color: #fbbf24; }
-    .star-rating label:hover ~ label, .star-rating label:hover { color: #fcd34d; }
-</style>
 @endsection
